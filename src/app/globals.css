@@ -1,26 +1,298 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Motion Within design tokens (design system v2).
+ * Calm, sporty, mobile-only. Light and dark follow the system setting.
+ * Colors are paired with text labels or icon shapes in the UI; color is never the only signal.
+ */
+@theme {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #f6f6f2;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eeeee8;
+  --color-border: #deddd5;
+  --color-ink: #1b2421;
+  --color-ink-muted: #5b6661;
+  --color-ink-subtle: #66716c;
+
+  --color-brand: #0f6e62;
+  --color-brand-strong: #0a5249;
+  --color-brand-soft: #dcefe9;
+  --color-on-brand: #ffffff;
+
+  --color-accent: #e3714d;
+  --color-accent-strong: #9a3f22;
+  --color-accent-soft: #fbe6de;
+  --color-on-accent: #2a0f05;
+
+  --color-success: #2f7d4a;
+  --color-success-soft: #e0f1e5;
+  --color-on-success: #ffffff;
+  --color-warning: #8a5a00;
+  --color-warning-soft: #fbefd4;
+  --color-danger: #b3261e;
+  --color-danger-soft: #f9e0de;
+  --color-info-soft: #e2ecf6;
+  --color-info: #245a8f;
+
+  --color-scrim: rgb(27 36 33 / 0.4);
+
+  --radius-control: 0.875rem;
+  --radius-card: 1.25rem;
+  --radius-sheet: 1.75rem;
+
+  --shadow-card: 0 1px 2px rgb(27 36 33 / 0.04), 0 4px 16px rgb(27 36 33 / 0.05);
+  --shadow-raised: 0 2px 4px rgb(27 36 33 / 0.06), 0 12px 32px rgb(27 36 33 / 0.1);
+  --shadow-sheet: 0 -8px 40px rgb(27 36 33 / 0.16);
+  --shadow-nav: 0 -1px 0 rgb(27 36 33 / 0.06);
+
+  /* Motion: easings become `ease-*` utilities, animations `animate-*`. */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-spring: linear(
+    0,
+    0.063,
+    0.22 7.1%,
+    0.635 15.4%,
+    0.87 21.6%,
+    0.998 27.7%,
+    1.051 32.8%,
+    1.066 37.6%,
+    1.059 43%,
+    1.013 57.4%,
+    0.998 70.4%,
+    1
+  );
+
+  --animate-rise: mw-rise 360ms var(--ease-enter) both;
+  --animate-fade-down: mw-fade-down 240ms var(--ease-enter) both;
+  --animate-fade-in: mw-fade-in 240ms var(--ease-standard) both;
+  --animate-pop: mw-pop 240ms var(--ease-spring);
+  --animate-shake: mw-shake 320ms var(--ease-standard);
+  --animate-shimmer: mw-shimmer 1.4s linear infinite;
+  --animate-live: mw-live 1.6s var(--ease-standard) infinite;
+  --animate-breathe: mw-breathe 3.2s var(--ease-standard) 600ms infinite;
+  --animate-draw: mw-draw 520ms var(--ease-enter) both;
+  --animate-ring: mw-ring 520ms var(--ease-enter);
+  --animate-sheet-in: mw-sheet-in 360ms var(--ease-enter) both;
+  --animate-sheet-out: mw-sheet-out 240ms var(--ease-exit) both;
+  --animate-scrim-in: mw-fade-in 360ms var(--ease-standard) both;
+  --animate-scrim-out: mw-fade-out 240ms var(--ease-exit) both;
+
+  @keyframes mw-sheet-in {
+    from {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes mw-sheet-out {
+    to {
+      transform: translateY(100%);
+    }
+  }
+  @keyframes mw-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes mw-rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  @keyframes mw-fade-down {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  @keyframes mw-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes mw-pop {
+    from {
+      transform: scale(0.6);
+    }
+  }
+  @keyframes mw-shake {
+    20%,
+    60% {
+      transform: translateX(-6px);
+    }
+    40%,
+    80% {
+      transform: translateX(6px);
+    }
+  }
+  @keyframes mw-shimmer {
+    from {
+      background-position: 150% 0;
+    }
+    to {
+      background-position: -50% 0;
+    }
+  }
+  @keyframes mw-live {
+    0% {
+      box-shadow: 0 0 0 0 var(--color-accent);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 6px transparent;
+    }
+  }
+  @keyframes mw-breathe {
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  @keyframes mw-draw {
+    from {
+      stroke-dashoffset: 24;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes mw-ring {
+    from {
+      opacity: 0.6;
+      box-shadow: 0 0 0 0 var(--color-success);
+    }
+    to {
+      opacity: 0;
+      box-shadow: 0 0 0 14px var(--color-success);
+    }
+  }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  color-scheme: light dark;
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 360ms;
+  --dur-deliberate: 520ms;
+  --dur-stagger: 40ms;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #0e1412;
+    --color-surface: #161e1b;
+    --color-surface-muted: #1f2925;
+    --color-border: #2c3833;
+    --color-ink: #eef2ef;
+    --color-ink-muted: #a5b1ab;
+    --color-ink-subtle: #8a9690;
+
+    --color-brand: #3fc2ad;
+    --color-brand-strong: #6ad6c4;
+    --color-brand-soft: #123a34;
+    --color-on-brand: #04211d;
+
+    --color-accent: #f08a66;
+    --color-accent-strong: #ffb59a;
+    --color-accent-soft: #3a2118;
+
+    --color-success: #5fcf85;
+    --color-success-soft: #15301f;
+    --color-on-success: #062312;
+    --color-warning: #f0b94a;
+    --color-warning-soft: #33280f;
+    --color-danger: #ff8a80;
+    --color-danger-soft: #3b1a18;
+    --color-info: #8ab8ec;
+    --color-info-soft: #172636;
+
+    --color-scrim: rgb(0 0 0 / 0.6);
+
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.25);
+    --shadow-raised: 0 2px 4px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.45);
+    --shadow-sheet: 0 -8px 40px rgb(0 0 0 / 0.6);
+    --shadow-nav: 0 -1px 0 rgb(255 255 255 / 0.06);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-feature-settings: "tnum" 1;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+/* Press feedback: sink fast, release on a spring. */
+@utility pressable {
+  transition-property: transform, background-color, border-color, color, box-shadow, opacity;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-spring);
+  &:active {
+    transform: scale(0.97);
+    transition-duration: var(--dur-instant);
+    transition-timing-function: var(--ease-standard);
+  }
+}
+@utility pressable-sm {
+  transition-property: transform, background-color, border-color, color, box-shadow, opacity;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-spring);
+  &:active {
+    transform: scale(0.92);
+    transition-duration: var(--dur-instant);
+    transition-timing-function: var(--ease-standard);
+  }
+}
+
+/* List entrance: set --i on each item (0–6) for a 40ms stagger. */
+@utility enter {
+  animation: var(--animate-rise);
+  animation-delay: calc(min(var(--i, 0), 6) * var(--dur-stagger));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
 }
