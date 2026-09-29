@@ -33,8 +33,8 @@ pnpm vapid               # opciono: generiše VAPID ključeve za push
 pnpm dev                 # http://localhost:3000
 ```
 
-Lokalno je potvrda emaila isključena. Mejlovi (reset lozinke) se vide u Mailpit-u:
-http://127.0.0.1:54324. Supabase Studio: http://127.0.0.1:54323.
+Prijava je bez lozinke: korisnik unese email i dobije 6-cifreni kod (prva prijava pravi nalog).
+Lokalno se mejlovi sa kodom vide u Mailpit-u: http://127.0.0.1:54324. Supabase Studio: http://127.0.0.1:54323.
 
 ## Baza: migracije, seed, tipovi
 
@@ -102,7 +102,12 @@ pnpm exec supabase secrets set CRON_SECRET=<dug-random> VAPID_PUBLIC_KEY=... VAP
 ```
 
 U Auth podešavanjima: Site URL `https://motionwithin.me`, redirect URL
-`https://motionwithin.me/auth/callback`, uključi potvrdu emaila i podesi SMTP.
+`https://motionwithin.me/auth/callback` i podesi SMTP. Email šabloni „Magic link" i „Confirm signup"
+moraju da sadrže `{{ .Token }}` — prenesi `supabase/templates/otp.html` (ili `supabase config push`),
+OTP expiry 900 s. Vidi `docs/decisions/0005-passwordless-auth.md`.
+Za brzu prijavu (passkey) uključi Passkeys i podesi WebAuthn: RP ID `motionwithin.me`, origin
+`https://motionwithin.me` (vidi `docs/decisions/0006-passkeys.md`). Lokalno otvaraj aplikaciju na
+`http://localhost:3000`, ne na `127.0.0.1` — passkey je vezan za domen.
 
 Cron (SQL editor, jednom po projektu) — poziva funkciju na 5 minuta:
 

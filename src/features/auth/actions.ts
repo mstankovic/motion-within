@@ -1,35 +1,25 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { setLocaleCookie } from "@/lib/i18n/set-locale-cookie";
-import { emailSchema, passwordSchema, signInSchema, signUpSchema } from "@/lib/validation/auth";
+import { emailSchema, verifyOtpSchema } from "@/lib/validation/auth";
 
 export type AuthErrorCode =
-  | "invalidCredentials"
-  | "emailTaken"
-  | "weakPassword"
-  | "invalidEmail"
-  | "rateLimited"
-  | "linkInvalid"
-  | "generic";
+  "invalidEmail" | "codeInvalid" | "rateLimited" | "linkInvalid" | "generic";
 
 export type AuthState = {
   error?: AuthErrorCode;
-  message?: "resetSent" | "checkEmail" | "passwordUpdated";
+  /** Address the code was sent to (normalized). */
+  sentTo?: string;
 };
 
 function mapAuthError(code: string | undefined, status?: number): AuthErrorCode {
   switch (code) {
-    case "invalid_credentials":
-      return "invalidCredentials";
-    case "user_already_exists":
-    case "email_exists":
-      return "emailTaken";
-    case "weak_password":
-      return "weakPassword";
+    case "otp_expired":
+    case "otp_disabled":
+      return "codeInvalid";
     case "email_address_invalid":
     case "validation_failed":
       return "invalidEmail";
@@ -41,107 +31,71 @@ function mapAuthError(code: string | undefined, status?: number): AuthErrorCode 
   }
 }
 
-async function siteUrl() {
-  const env = process.env.NEXT_PUBLIC_SITE_URL;
-  if (env) return env.replace(/\/$/, "");
-  const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host");
-  const proto = h.get("x-forwarded-proto") ?? "http";
-  return `${proto}://${host}`;
-}
-
 function safeNext(next: FormDataEntryValue | null) {
   const value = typeof next === "string" ? next : "";
   return value.startsWith("/") && !value.startsWith("//") ? value : "/calendar";
 }
 
-export async function signIn(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const parsed = signInSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
-  if (!parsed.success) return { error: "invalidCredentials" };
+/** Emails a one-time sign-in code. Creates the account on first use (no separate sign-up). */
+export async function requestOtp(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const parsed = emailSchema.safeParse(
+    String(formData.get("email") ?? "")
+      .trim()
+      .toLowerCase(),
+  );
+  if (!parsed.success) return { error: "invalidEmail" };
 
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
-  if (error) return { error: mapAuthError(error.code, error.status) };
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("locale")
-    .eq("id", data.user.id)
-    .single();
-  await setLocaleCookie(profile?.locale);
-
-  redirect(safeNext(formData.get("next")));
-}
-
-export async function signUp(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const parsed = signUpSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-    displayName: formData.get("displayName") || undefined,
-  });
-  if (!parsed.success) {
-    const field = parsed.error.issues[0]?.path[0];
-    return { error: field === "password" ? "weakPassword" : "invalidEmail" };
-  }
-
-  const locale = await getLocale();
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signUp({
-    email: parsed.data.email,
-    password: parsed.data.password,
+  const { error } = await supabase.auth.signInWithOtp({
+    email: parsed.data,
     options: {
-      emailRedirectTo: `${await siteUrl()}/auth/callback?next=/onboarding`,
-      // Only used by the database trigger to prefill the profile.
-      data: { display_name: parsed.data.displayName ?? null, locale },
+      shouldCreateUser: true,
+      // Only applied to new users: prefills the profile and picks the email language.
+      data: { locale: await getLocale() },
     },
   });
   if (error) return { error: mapAuthError(error.code, error.status) };
+  return { sentTo: parsed.data };
+}
 
-  // With email confirmation enabled there is no session yet.
-  if (!data.session) return { message: "checkEmail" };
+export async function verifyOtp(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const parsed = verifyOtpSchema.safeParse({
+    email: formData.get("email"),
+    token: formData.get("token"),
+  });
+  if (!parsed.success) return { error: "codeInvalid" };
 
-  await setLocaleCookie(locale);
-  redirect("/onboarding");
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.verifyOtp({ ...parsed.data, type: "email" });
+  if (error || !data.user) return { error: mapAuthError(error?.code, error?.status) };
+
+  return finishSignIn(data.user.id, formData.get("next"));
+}
+
+/** Called after the browser signed in with a passkey (the session cookie is already set). */
+export async function completePasskeySignIn(next: string | null): Promise<AuthState> {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  const userId = data?.claims?.sub;
+  if (!userId) return { error: "generic" };
+  return finishSignIn(userId, next);
+}
+
+async function finishSignIn(userId: string, next: FormDataEntryValue | null): Promise<never> {
+  const supabase = await createClient();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("locale")
+    .eq("id", userId)
+    .single();
+  await setLocaleCookie(profile?.locale);
+
+  // New users are sent on to onboarding by the app layout.
+  return redirect(safeNext(next));
 }
 
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/login");
-}
-
-export async function requestPasswordReset(
-  _prev: AuthState,
-  formData: FormData,
-): Promise<AuthState> {
-  const parsed = emailSchema.safeParse(formData.get("email"));
-  if (!parsed.success) return { error: "invalidEmail" };
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.resetPasswordForEmail(parsed.data, {
-    redirectTo: `${await siteUrl()}/auth/callback?next=/reset-password`,
-  });
-  // Do not reveal whether the account exists.
-  if (error && (error.status === 429 || error.code?.startsWith("over_"))) {
-    return { error: "rateLimited" };
-  }
-  return { message: "resetSent" };
-}
-
-export async function updatePassword(_prev: AuthState, formData: FormData): Promise<AuthState> {
-  const parsed = passwordSchema.safeParse(formData.get("password"));
-  if (!parsed.success) return { error: "weakPassword" };
-
-  const supabase = await createClient();
-  const { error } = await supabase.auth.updateUser({ password: parsed.data });
-  if (error) {
-    return {
-      error:
-        error.code === "same_password" ? "weakPassword" : mapAuthError(error.code, error.status),
-    };
-  }
-  return { message: "passwordUpdated" };
 }

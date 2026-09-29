@@ -1,0 +1,25 @@
+{{ $en := eq (printf "%v" .Data.locale) "en" }}<!doctype html>
+<html lang="{{ if $en }}en{{ else }}sr{{ end }}">
+  <body style="margin:0;padding:24px 12px;background:#f6f6f2;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1b2421">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:420px;background:#ffffff;border-radius:16px;padding:28px 24px">
+            <tr>
+              <td>
+                <p style="margin:0 0 20px;font-size:18px;font-weight:800;color:#0f6e62">Motion Within</p>
+                <p style="margin:0 0 8px;font-size:16px">
+                  {{ if $en }}Your sign-in code:{{ else }}Tvoj kod za prijavu:{{ end }}
+                </p>
+                <p style="margin:0 0 20px;font-size:34px;font-weight:800;letter-spacing:8px;font-family:ui-monospace,Menlo,Consolas,monospace">{{ .Token }}</p>
+                <p style="margin:0;font-size:14px;color:#5b6662">
+                  {{ if $en }}The code is valid for 15 minutes. If you didn't request it, you can ignore this email.{{ else }}Kod važi 15 minuta. Ako ga nisi ti tražio/la, slobodno ignoriši ovaj email.{{ end }}
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

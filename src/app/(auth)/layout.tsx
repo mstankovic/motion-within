@@ -1,21 +1,8 @@
-import { getTranslations } from "next-intl/server";
-import { BrandMark } from "@/components/app/brand-mark";
-
-export default async function AuthLayout({ children }: LayoutProps<"/">) {
-  const t = await getTranslations("app");
+/** Full-bleed welcome surface; the page puts the hero on top and the form in a bottom sheet. */
+export default function AuthLayout({ children }: LayoutProps<"/">) {
   return (
-    <main className="pt-safe mx-auto flex min-h-dvh w-full max-w-md flex-col px-4 py-8">
-      <div className="mb-8 flex flex-col items-center gap-3 text-center">
-        <BrandMark className="size-14" />
-        <div>
-          <p className="text-xl font-extrabold tracking-tight">{t("name")}</p>
-          <p className="text-ink-muted text-sm">{t("slogan")}</p>
-        </div>
-      </div>
-      {children}
-      <p className="text-ink-subtle mt-auto pt-10 text-center text-xs font-semibold tracking-wide uppercase">
-        {t("tagline")}
-      </p>
+    <main className="group from-hero to-hero-deep flex min-h-dvh flex-col bg-linear-to-b">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col">{children}</div>
     </main>
   );
 }

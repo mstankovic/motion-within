@@ -1,15 +1,16 @@
 import { z } from "zod";
 
+export const OTP_LENGTH = 6;
+
 export const emailSchema = z.email().max(254);
-export const passwordSchema = z.string().min(8).max(72);
 
-export const signInSchema = z.object({
-  email: emailSchema,
-  password: z.string().min(1).max(72),
-});
+/** The emailed sign-in code; tolerates spaces/dashes from copy-paste. */
+export const otpSchema = z
+  .string()
+  .transform((v) => v.replace(/[\s-]/g, ""))
+  .pipe(z.string().regex(new RegExp(`^\\d{${OTP_LENGTH}}$`)));
 
-export const signUpSchema = z.object({
+export const verifyOtpSchema = z.object({
   email: emailSchema,
-  password: passwordSchema,
-  displayName: z.string().trim().max(60).optional(),
+  token: otpSchema,
 });

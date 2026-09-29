@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { registerAndOnboard } from "./helpers";
+import { readOtp, registerAndOnboard } from "./helpers";
 
 test("create a program → add a day with an exercise → schedule it", async ({ page }) => {
   await registerAndOnboard(page, { starter: false });
@@ -68,4 +68,34 @@ test("user A cannot open user B's session", async ({ browser }) => {
   await expect(pageA.getByRole("heading", { name: "Nije pronađeno" })).toBeVisible();
   await ctxA.close();
   await ctxB.close();
+});
+
+test("passwordless sign-in: wrong code, session survives restart, returning user", async ({
+  page,
+  context,
+}) => {
+  const email = await registerAndOnboard(page);
+
+  // "Restarting the app": a fresh tab in the same browser profile stays signed in.
+  const again = await context.newPage();
+  await again.goto("/");
+  await again.waitForURL("**/calendar");
+  await again.close();
+
+  await page.goto("/profile");
+  await page.getByRole("button", { name: "Odjavi se" }).click();
+  await page.waitForURL("**/login");
+
+  await page.getByLabel("Email").fill(email);
+  // The server throttles codes per address for a few seconds; retry until it goes through.
+  await expect(async () => {
+    await page.getByRole("button", { name: "Nastavi" }).click();
+    await expect(page.getByLabel("Kod iz emaila")).toBeVisible({ timeout: 2_000 });
+  }).toPass({ intervals: [11_000], timeout: 40_000 });
+  await page.getByLabel("Kod iz emaila").fill("000000");
+  await expect(page.getByText("Kod nije ispravan ili je istekao.", { exact: false })).toBeVisible();
+
+  await page.getByLabel("Kod iz emaila").fill(await readOtp(email));
+  // Returning users skip onboarding.
+  await page.waitForURL("**/calendar");
 });

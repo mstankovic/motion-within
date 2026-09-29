@@ -38,6 +38,12 @@
 
   --color-scrim: rgb(27 36 33 / 0.4);
 
+  /* Welcome screen: deep brand surface in both themes. */
+  --color-hero: #0c5a50;
+  --color-hero-deep: #083f38;
+  --color-on-hero: #eef7f4;
+  --color-on-hero-muted: #a9d3c9;
+
   --radius-control: 0.875rem;
   --radius-card: 1.25rem;
   --radius-sheet: 1.75rem;
@@ -75,6 +81,7 @@
   --animate-live: mw-live 1.6s var(--ease-standard) infinite;
   --animate-breathe: mw-breathe 3.2s var(--ease-standard) 600ms infinite;
   --animate-draw: mw-draw 520ms var(--ease-enter) both;
+  --animate-float: mw-float 6s ease-in-out infinite;
   --animate-ring: mw-ring 520ms var(--ease-enter);
   --animate-sheet-in: mw-sheet-in 360ms var(--ease-enter) both;
   --animate-sheet-out: mw-sheet-out 240ms var(--ease-exit) both;
@@ -159,6 +166,11 @@
       stroke-dashoffset: 0;
     }
   }
+  @keyframes mw-float {
+    50% {
+      translate: 0 -6px;
+    }
+  }
   @keyframes mw-ring {
     from {
       opacity: 0.6;
@@ -211,6 +223,9 @@
     --color-info-soft: #172636;
 
     --color-scrim: rgb(0 0 0 / 0.6);
+
+    --color-hero: #0d302b;
+    --color-hero-deep: #081c19;
 
     --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.25);
     --shadow-raised: 0 2px 4px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.45);

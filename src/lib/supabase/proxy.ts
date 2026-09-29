@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 import type { Database } from "@/types/database";
 import { supabaseEnv } from "./env";
 
-const PUBLIC_PATHS = ["/login", "/register", "/forgot-password", "/auth", "/offline"];
+const PUBLIC_PATHS = ["/login", "/auth", "/offline"];
 
 function isPublic(pathname: string) {
   return PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
@@ -42,7 +42,7 @@ export async function updateSession(request: NextRequest) {
     return redirectWithCookies(target, response);
   }
 
-  if (signedIn && (pathname === "/login" || pathname === "/register")) {
+  if (signedIn && pathname === "/login") {
     const target = request.nextUrl.clone();
     target.pathname = "/calendar";
     target.search = "";

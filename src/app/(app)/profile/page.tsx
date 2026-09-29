@@ -7,6 +7,7 @@ import { InstallHint } from "@/components/app/install-hint";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { signOut } from "@/features/auth/actions";
+import { PasskeySettings } from "@/features/auth/passkey-ui";
 import { ProfileForm } from "@/features/profile/profile-form";
 import type { Goal } from "@/lib/validation/profile";
 import { createClient, getProfile } from "@/lib/supabase/server";
@@ -63,6 +64,7 @@ export default async function ProfilePage() {
             preferredWeekdays: profile.preferred_weekdays,
           }}
         />
+        <PasskeySettings />
         <Card className="space-y-3 text-sm">
           <div>
             <h2 className="font-bold">{t("safety")}</h2>

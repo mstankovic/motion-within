@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState, Notice } from "@/components/ui/states";
+import { PasskeyOffer } from "@/features/auth/passkey-ui";
 import { PlanWeekButton } from "@/features/calendar/plan-week-button";
 import {
   getLastCompletedAt,
@@ -161,6 +162,8 @@ export default async function CalendarPage({ searchParams }: PageProps<"/calenda
           </Card>
         </section>
       ) : null}
+
+      <PasskeyOffer className="mb-5" />
 
       {!activeProgram ? (
         <EmptyState
