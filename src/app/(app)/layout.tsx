@@ -9,7 +9,7 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
 
   return (
     <>
-      <main className="pt-safe mx-auto w-full max-w-[430px] px-4 pt-4 pb-[calc(6rem+env(safe-area-inset-bottom))]">
+      <main className="pt-safe mx-auto w-full max-w-[430px] px-5 pt-2.5 pb-[calc(6rem+env(safe-area-inset-bottom))]">
         <OfflineBanner />
         {children}
       </main>

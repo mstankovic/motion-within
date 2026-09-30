@@ -1,0 +1,1931 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet
+        ><link rel="preconnect" href="https://fonts.googleapis.com" /><link
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+          rel="stylesheet"
+        /><style>
+          @keyframes mwLive {
+            0% {
+              box-shadow: 0 0 0 0 #f08a66;
+            }
+            70%,
+            100% {
+              box-shadow: 0 0 0 6px rgba(240, 138, 102, 0);
+            }
+          }
+          @keyframes mwRise {
+            from {
+              opacity: 0;
+              transform: translateY(8px);
+            }
+          }
+          button {
+            font-family: inherit;
+          }
+          a {
+            color: #0f6e62;
+          }
+          a:hover {
+            color: #0a5249;
+          }
+        </style></helmet
+      >
+      <div
+        data-screen-label="Home"
+        style="
+          width: 390px;
+          height: 844px;
+          position: relative;
+          overflow: hidden;
+          background: #f6f6f2;
+          color: #1b2421;
+          font-family: Manrope, system-ui, sans-serif;
+          font-weight: 500;
+          font-feature-settings: &quot;tnum&quot; 1;
+          -webkit-font-smoothing: antialiased;
+        "
+      >
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            padding-bottom: 124px;
+            scrollbar-width: none;
+          "
+        >
+          <div
+            style="
+              height: 54px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 4px 30px 0 44px;
+              font-size: 16px;
+              font-weight: 700;
+            "
+          >
+            <span>17:20</span>
+            <span style="display: flex; align-items: center; gap: 6px">
+              <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true">
+                <rect x="0" y="8" width="3" height="4" rx="1" fill="#1b2421"></rect>
+                <rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#1b2421"></rect>
+                <rect x="10" y="3" width="3" height="9" rx="1" fill="#1b2421"></rect>
+                <rect x="15" y="0" width="3" height="12" rx="1" fill="#1b2421"></rect>
+              </svg>
+              <svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true">
+                <rect
+                  x="0.5"
+                  y="0.5"
+                  width="22"
+                  height="11"
+                  rx="3.5"
+                  fill="none"
+                  stroke="#1b2421"
+                  opacity="0.4"
+                ></rect>
+                <rect x="2" y="2" width="16" height="8" rx="2" fill="#1b2421"></rect>
+                <rect
+                  x="24"
+                  y="4"
+                  width="1.5"
+                  height="4"
+                  rx="0.75"
+                  fill="#1b2421"
+                  opacity="0.4"
+                ></rect>
+              </svg>
+            </span>
+          </div>
+
+          <div style="padding: 10px 20px 0; display: flex; flex-direction: column; gap: 22px">
+            <sc-if value="{{ isOffline }}" hint-placeholder-val="{{ false }}">
+              <div
+                role="status"
+                style="
+                  display: flex;
+                  gap: 10px;
+                  align-items: flex-start;
+                  background: #fbefd4;
+                  color: #8a5a00;
+                  border-radius: 14px;
+                  padding: 12px 14px;
+                  font-size: 14px;
+                  line-height: 20px;
+                  font-weight: 600;
+                "
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  style="flex: none; margin-top: 1px"
+                >
+                  <path d="M12 20h.01"></path>
+                  <path d="M8.5 16.429a5 5 0 0 1 7 0"></path>
+                  <path d="M5 12.859a10 10 0 0 1 5.17-2.69"></path>
+                  <path d="M19 12.859a10 10 0 0 0-2.007-1.523"></path>
+                  <path d="M2 8.82a15 15 0 0 1 4.177-2.643"></path>
+                  <path d="M22 8.82a15 15 0 0 0-11.288-3.764"></path>
+                  <path d="m2 2 20 20"></path>
+                </svg>
+                <span
+                  >Offline. Your plan is saved on this phone; starting a workout needs a
+                  connection.</span
+                >
+              </div>
+            </sc-if>
+
+            <header style="display: flex; flex-direction: column; gap: 4px">
+              <p
+                style="
+                  margin: 0;
+                  font-size: 13px;
+                  line-height: 18px;
+                  font-weight: 700;
+                  letter-spacing: 0.06em;
+                  text-transform: uppercase;
+                  color: #5b6661;
+                "
+              >
+                {{ dateLabel }}
+              </p>
+              <h1
+                style="
+                  margin: 0;
+                  font-size: 30px;
+                  line-height: 36px;
+                  font-weight: 800;
+                  letter-spacing: -0.02em;
+                "
+              >
+                {{ greeting }}
+              </h1>
+              <p
+                style="
+                  margin: 2px 0 0;
+                  font-size: 15px;
+                  line-height: 22px;
+                  color: #5b6661;
+                  text-wrap: pretty;
+                "
+              >
+                {{ context }}
+              </p>
+            </header>
+
+            <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+              <div aria-busy="true" style="display: flex; flex-direction: column; gap: 22px">
+                <div
+                  style="
+                    height: 268px;
+                    border-radius: 28px;
+                    background: linear-gradient(90deg, #eeeee8 30%, #ffffff 50%, #eeeee8 70%);
+                    background-size: 200% 100%;
+                  "
+                ></div>
+                <div style="height: 196px; border-radius: 20px; background: #eeeee8"></div>
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <div
+                    style="height: 20px; width: 96px; border-radius: 6px; background: #eeeee8"
+                  ></div>
+                  <div style="height: 144px; border-radius: 20px; background: #eeeee8"></div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ heroWorkout }}" hint-placeholder-val="{{ true }}">
+              <section
+                aria-labelledby="today-title"
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  background: #0c5a50;
+                  color: #eef7f4;
+                  border-radius: 28px;
+                  padding: 20px 20px 12px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 18px;
+                  box-shadow:
+                    0 2px 4px rgb(27 36 33 / 0.06),
+                    0 12px 32px rgb(27 36 33 / 0.1);
+                "
+              >
+                <svg
+                  width="220"
+                  height="220"
+                  viewBox="0 0 220 220"
+                  aria-hidden="true"
+                  style="position: absolute; right: -70px; top: -80px; pointer-events: none"
+                >
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="108"
+                    fill="none"
+                    stroke="#eef7f4"
+                    stroke-opacity="0.07"
+                    stroke-width="2"
+                  ></circle>
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="80"
+                    fill="none"
+                    stroke="#eef7f4"
+                    stroke-opacity="0.07"
+                    stroke-width="2"
+                  ></circle>
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="52"
+                    fill="none"
+                    stroke="#eef7f4"
+                    stroke-opacity="0.07"
+                    stroke-width="2"
+                  ></circle>
+                </svg>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                    position: relative;
+                  "
+                >
+                  <p
+                    style="
+                      margin: 0;
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      font-size: 13px;
+                      line-height: 18px;
+                      font-weight: 700;
+                      letter-spacing: 0.06em;
+                      text-transform: uppercase;
+                      color: #a9d3c9;
+                    "
+                  >
+                    <sc-if value="{{ isLive }}" hint-placeholder-val="{{ false }}"
+                      >{{ liveDot }}</sc-if
+                    >
+                    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}"
+                      ><svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#5fcf85"
+                        stroke-width="2.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m9 12 2 2 4-4"></path></svg
+                    ></sc-if>
+                    <span>{{ heroEyebrow }}</span>
+                  </p>
+                  <span
+                    style="
+                      flex: none;
+                      display: inline-flex;
+                      align-items: center;
+                      height: 28px;
+                      padding: 0 11px;
+                      border-radius: 999px;
+                      background: rgba(238, 247, 244, 0.12);
+                      font-size: 13px;
+                      font-weight: 700;
+                      color: #eef7f4;
+                    "
+                    >{{ tw.focus }}</span
+                  >
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px; position: relative">
+                  <h2
+                    id="today-title"
+                    style="
+                      margin: 0;
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                      text-wrap: balance;
+                    "
+                  >
+                    {{ tw.title }}
+                  </h2>
+                  <p
+                    style="
+                      margin: 0;
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      font-size: 15px;
+                      line-height: 22px;
+                      font-weight: 600;
+                      color: #cfe7e0;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m3 17 2 2 4-4"></path>
+                      <path d="m3 7 2 2 4-4"></path>
+                      <path d="M13 6h8"></path>
+                      <path d="M13 12h8"></path>
+                      <path d="M13 18h8"></path>
+                    </svg>
+                    <span>{{ heroMeta }}</span>
+                  </p>
+                </div>
+                <sc-if value="{{ isLive }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-direction: column; gap: 8px; position: relative">
+                    <div
+                      style="
+                        height: 6px;
+                        border-radius: 3px;
+                        background: rgba(238, 247, 244, 0.16);
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        style="height:100%;width:{{ livePct }};background:#f08a66;border-radius:3px"
+                      ></div>
+                    </div>
+                  </div>
+                </sc-if>
+                <div style="display: flex; flex-direction: column; gap: 2px; position: relative">
+                  <sc-if value="{{ isPlanned }}" hint-placeholder-val="{{ true }}">
+                    <button
+                      onClick="{{ onStart }}"
+                      disabled="{{ isOffline }}"
+                      style="height:56px;width:100%;border:0;border-radius:14px;background:#e3714d;color:#2a0f05;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;opacity:{{ ctaOpacity }}"
+                      style-active="transform:scale(0.97)"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                      </svg>
+                      Start workout
+                    </button>
+                  </sc-if>
+                  <sc-if value="{{ isLive }}" hint-placeholder-val="{{ false }}">
+                    <button
+                      onClick="{{ onContinue }}"
+                      style="
+                        height: 56px;
+                        width: 100%;
+                        border: 0;
+                        border-radius: 14px;
+                        background: #e3714d;
+                        color: #2a0f05;
+                        font-size: 16px;
+                        font-weight: 800;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        cursor: pointer;
+                      "
+                      style-active="transform:scale(0.97)"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                      </svg>
+                      Continue workout
+                    </button>
+                  </sc-if>
+                  <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+                    <button
+                      onClick="{{ onSummary }}"
+                      style="
+                        height: 56px;
+                        width: 100%;
+                        border: 0;
+                        border-radius: 14px;
+                        background: #eef7f4;
+                        color: #0a5249;
+                        font-size: 16px;
+                        font-weight: 800;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        cursor: pointer;
+                      "
+                      style-active="transform:scale(0.97)"
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="18" x2="18" y1="20" y2="10"></line>
+                        <line x1="12" x2="12" y1="20" y2="4"></line>
+                        <line x1="6" x2="6" y1="20" y2="14"></line>
+                      </svg>
+                      View summary
+                    </button>
+                  </sc-if>
+                  <button
+                    onClick="{{ onDetails }}"
+                    style="
+                      min-height: 44px;
+                      border: 0;
+                      background: transparent;
+                      color: #a9d3c9;
+                      font-size: 15px;
+                      font-weight: 700;
+                      cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      gap: 4px;
+                    "
+                    style-hover="color:#eef7f4"
+                  >
+                    View workout
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ isRest }}" hint-placeholder-val="{{ false }}">
+              <section
+                aria-labelledby="rest-title"
+                style="
+                  background: #dcefe9;
+                  border-radius: 28px;
+                  padding: 20px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 12px">
+                  <span
+                    style="
+                      width: 44px;
+                      height: 44px;
+                      border-radius: 999px;
+                      background: #ffffff;
+                      color: #0a5249;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      flex: none;
+                    "
+                  >
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                    </svg>
+                  </span>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 13px;
+                      font-weight: 700;
+                      letter-spacing: 0.06em;
+                      text-transform: uppercase;
+                      color: #0a5249;
+                    "
+                  >
+                    Today · Recovery
+                  </p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px">
+                  <h2
+                    id="rest-title"
+                    style="
+                      margin: 0;
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                      color: #0a5249;
+                    "
+                  >
+                    Rest day
+                  </h2>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 15px;
+                      line-height: 22px;
+                      color: #1b2421;
+                      text-wrap: pretty;
+                    "
+                  >
+                    Recovery is part of your program. Your body adapts between sessions.
+                  </p>
+                </div>
+                <button
+                  onClick="{{ onNext }}"
+                  style="
+                    border: 0;
+                    text-align: left;
+                    cursor: pointer;
+                    background: #ffffff;
+                    border-radius: 18px;
+                    padding: 14px 14px 14px 16px;
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    box-shadow:
+                      0 1px 2px rgb(27 36 33 / 0.04),
+                      0 4px 16px rgb(27 36 33 / 0.05);
+                    color: #1b2421;
+                  "
+                  style-active="transform:scale(0.985)"
+                >
+                  <span
+                    style="
+                      width: 44px;
+                      flex: none;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    "
+                  >
+                    <span
+                      style="
+                        font-size: 12px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        color: #5b6661;
+                      "
+                      >{{ nextW.wd }}</span
+                    >
+                    <span style="font-size: 20px; line-height: 24px; font-weight: 800"
+                      >{{ nextW.num }}</span
+                    >
+                  </span>
+                  <span
+                    style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"
+                  >
+                    <span style="font-size: 13px; font-weight: 700; color: #0a5249"
+                      >Next workout · {{ nextW.rel }}</span
+                    >
+                    <span style="font-size: 16px; line-height: 22px; font-weight: 700"
+                      >{{ nextW.title }}</span
+                    >
+                    <span style="font-size: 14px; line-height: 20px; color: #5b6661"
+                      >{{ nextW.meta }}</span
+                    >
+                  </span>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#66716c"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    style="flex: none"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </button>
+                <button
+                  onClick="{{ onAdd }}"
+                  style="
+                    min-height: 48px;
+                    border: 1px solid #b9d9d0;
+                    border-radius: 14px;
+                    background: transparent;
+                    color: #0a5249;
+                    font-size: 15px;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    cursor: pointer;
+                  "
+                  style-active="transform:scale(0.97)"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="M12 5v14"></path>
+                  </svg>
+                  Add a workout for today
+                </button>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ isMissed }}" hint-placeholder-val="{{ false }}">
+              <section
+                aria-labelledby="missed-title"
+                style="
+                  background: #ffffff;
+                  border-radius: 28px;
+                  padding: 20px 20px 12px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;
+                  box-shadow:
+                    0 2px 4px rgb(27 36 33 / 0.06),
+                    0 12px 32px rgb(27 36 33 / 0.1);
+                "
+              >
+                <span
+                  style="
+                    align-self: flex-start;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    height: 28px;
+                    padding: 0 11px;
+                    border-radius: 999px;
+                    background: #fbefd4;
+                    color: #8a5a00;
+                    font-size: 13px;
+                    font-weight: 700;
+                  "
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" x2="12" y1="8" y2="12"></line>
+                    <line x1="12" x2="12.01" y1="16" y2="16"></line>
+                  </svg>
+                  Not logged · Monday
+                </span>
+                <div style="display: flex; flex-direction: column; gap: 6px">
+                  <h2
+                    id="missed-title"
+                    style="
+                      margin: 0;
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                    "
+                  >
+                    Full body — Light
+                  </h2>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 15px;
+                      line-height: 22px;
+                      color: #5b6661;
+                      text-wrap: pretty;
+                    "
+                  >
+                    Today is free in your plan. Move it here, or mark it as skipped so your week
+                    stays accurate.
+                  </p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 2px">
+                  <button
+                    onClick="{{ onMove }}"
+                    style="
+                      height: 56px;
+                      width: 100%;
+                      border: 0;
+                      border-radius: 14px;
+                      background: #0f6e62;
+                      color: #ffffff;
+                      font-size: 16px;
+                      font-weight: 800;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      gap: 10px;
+                      cursor: pointer;
+                    "
+                    style-active="transform:scale(0.97);background:#0a5249"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                      <path d="M16 2v4"></path>
+                      <path d="M8 2v4"></path>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                    Move to today
+                  </button>
+                  <button
+                    onClick="{{ onSkip }}"
+                    style="
+                      min-height: 44px;
+                      border: 0;
+                      background: transparent;
+                      color: #1b2421;
+                      font-size: 15px;
+                      font-weight: 700;
+                      cursor: pointer;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      gap: 8px;
+                    "
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                      <line x1="19" x2="19" y1="5" y2="19"></line>
+                    </svg>
+                    Mark as skipped
+                  </button>
+                </div>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ isUnplanned }}" hint-placeholder-val="{{ false }}">
+              <section
+                aria-labelledby="plan-title"
+                style="
+                  background: #dcefe9;
+                  border-radius: 28px;
+                  padding: 20px 20px 12px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;
+                "
+              >
+                <p
+                  style="
+                    margin: 0;
+                    font-size: 13px;
+                    font-weight: 700;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                    color: #0a5249;
+                  "
+                >
+                  Starter program
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 6px">
+                  <h2
+                    id="plan-title"
+                    style="
+                      margin: 0;
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                      color: #0a5249;
+                    "
+                  >
+                    Plan your week
+                  </h2>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 15px;
+                      line-height: 22px;
+                      color: #1b2421;
+                      text-wrap: pretty;
+                    "
+                  >
+                    Your program trains on Monday, Wednesday and Friday. Add those days to this week
+                    in one tap.
+                  </p>
+                </div>
+                <div style="display: flex; gap: 6px">
+                  <span
+                    style="
+                      height: 32px;
+                      padding: 0 12px;
+                      border-radius: 999px;
+                      background: #ffffff;
+                      display: inline-flex;
+                      align-items: center;
+                      font-size: 14px;
+                      font-weight: 700;
+                    "
+                    >Mon · Light</span
+                  >
+                  <span
+                    style="
+                      height: 32px;
+                      padding: 0 12px;
+                      border-radius: 999px;
+                      background: #ffffff;
+                      display: inline-flex;
+                      align-items: center;
+                      font-size: 14px;
+                      font-weight: 700;
+                    "
+                    >Wed · Strong</span
+                  >
+                  <span
+                    style="
+                      height: 32px;
+                      padding: 0 12px;
+                      border-radius: 999px;
+                      background: #ffffff;
+                      display: inline-flex;
+                      align-items: center;
+                      font-size: 14px;
+                      font-weight: 700;
+                    "
+                    >Fri · Mobility</span
+                  >
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 2px">
+                  <button
+                    onClick="{{ onPlan }}"
+                    style="
+                      height: 56px;
+                      width: 100%;
+                      border: 0;
+                      border-radius: 14px;
+                      background: #0f6e62;
+                      color: #ffffff;
+                      font-size: 16px;
+                      font-weight: 800;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      gap: 10px;
+                      cursor: pointer;
+                    "
+                    style-active="transform:scale(0.97);background:#0a5249"
+                  >
+                    Plan this week
+                  </button>
+                  <button
+                    onClick="{{ onAdd }}"
+                    style="
+                      min-height: 44px;
+                      border: 0;
+                      background: transparent;
+                      color: #0a5249;
+                      font-size: 15px;
+                      font-weight: 700;
+                      cursor: pointer;
+                    "
+                  >
+                    Add a single workout
+                  </button>
+                </div>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ isNoProgram }}" hint-placeholder-val="{{ false }}">
+              <section
+                aria-labelledby="setup-title"
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  background: #0c5a50;
+                  color: #eef7f4;
+                  border-radius: 28px;
+                  padding: 22px 20px 12px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;
+                "
+              >
+                <svg
+                  width="220"
+                  height="220"
+                  viewBox="0 0 220 220"
+                  aria-hidden="true"
+                  style="position: absolute; right: -70px; top: -80px; pointer-events: none"
+                >
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="108"
+                    fill="none"
+                    stroke="#eef7f4"
+                    stroke-opacity="0.07"
+                    stroke-width="2"
+                  ></circle>
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="80"
+                    fill="none"
+                    stroke="#eef7f4"
+                    stroke-opacity="0.07"
+                    stroke-width="2"
+                  ></circle>
+                  <circle
+                    cx="110"
+                    cy="110"
+                    r="52"
+                    fill="none"
+                    stroke="#eef7f4"
+                    stroke-opacity="0.07"
+                    stroke-width="2"
+                  ></circle>
+                </svg>
+                <p
+                  style="
+                    margin: 0;
+                    font-size: 13px;
+                    font-weight: 700;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                    color: #a9d3c9;
+                    position: relative;
+                  "
+                >
+                  Get started
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 8px; position: relative">
+                  <h2
+                    id="setup-title"
+                    style="
+                      margin: 0;
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                      text-wrap: balance;
+                    "
+                  >
+                    Set up your first program
+                  </h2>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 15px;
+                      line-height: 22px;
+                      color: #cfe7e0;
+                      text-wrap: pretty;
+                    "
+                  >
+                    The starter program has three days: light full body, stronger full body and
+                    mobility. You can change everything later.
+                  </p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 2px; position: relative">
+                  <button
+                    onClick="{{ onStarter }}"
+                    style="
+                      height: 56px;
+                      width: 100%;
+                      border: 0;
+                      border-radius: 14px;
+                      background: #e3714d;
+                      color: #2a0f05;
+                      font-size: 16px;
+                      font-weight: 800;
+                      cursor: pointer;
+                    "
+                    style-active="transform:scale(0.97)"
+                  >
+                    Use the starter program
+                  </button>
+                  <button
+                    onClick="{{ onOwn }}"
+                    style="
+                      min-height: 44px;
+                      border: 0;
+                      background: transparent;
+                      color: #a9d3c9;
+                      font-size: 15px;
+                      font-weight: 700;
+                      cursor: pointer;
+                    "
+                    style-hover="color:#eef7f4"
+                  >
+                    Build my own
+                  </button>
+                </div>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ showWeek }}" hint-placeholder-val="{{ true }}">
+              <section
+                aria-labelledby="week-title"
+                style="
+                  background: #ffffff;
+                  border-radius: 20px;
+                  padding: 16px 12px 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                  box-shadow:
+                    0 1px 2px rgb(27 36 33 / 0.04),
+                    0 4px 16px rgb(27 36 33 / 0.05);
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 4px; padding: 0 4px">
+                  <div style="flex: 1; min-width: 0">
+                    <h2
+                      id="week-title"
+                      style="margin: 0; font-size: 17px; line-height: 24px; font-weight: 800"
+                    >
+                      {{ weekTitle }}
+                    </h2>
+                    <p style="margin: 0; font-size: 13px; line-height: 18px; color: #5b6661">
+                      {{ weekRange }}
+                    </p>
+                  </div>
+                  <sc-if value="{{ notThisWeek }}" hint-placeholder-val="{{ false }}">
+                    <button
+                      onClick="{{ onThisWeek }}"
+                      style="
+                        height: 36px;
+                        padding: 0 12px;
+                        border: 1px solid #deddd5;
+                        border-radius: 999px;
+                        background: #ffffff;
+                        color: #1b2421;
+                        font-size: 13px;
+                        font-weight: 700;
+                        cursor: pointer;
+                      "
+                    >
+                      Today
+                    </button>
+                  </sc-if>
+                  <button
+                    onClick="{{ onPrev }}"
+                    aria-label="Previous week"
+                    style="
+                      width: 44px;
+                      height: 44px;
+                      border: 0;
+                      border-radius: 999px;
+                      background: transparent;
+                      color: #1b2421;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      cursor: pointer;
+                    "
+                    style-hover="background:#eeeee8"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m15 18-6-6 6-6"></path>
+                    </svg>
+                  </button>
+                  <button
+                    onClick="{{ onNextWeek }}"
+                    aria-label="Next week"
+                    style="
+                      width: 44px;
+                      height: 44px;
+                      border: 0;
+                      border-radius: 999px;
+                      background: transparent;
+                      color: #1b2421;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      cursor: pointer;
+                      margin-right: -8px;
+                    "
+                    style-hover="background:#eeeee8"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+                <sc-if value="{{ hasCounted }}" hint-placeholder-val="{{ true }}">
+                  <div
+                    style="display: flex; flex-direction: column; gap: 10px; padding: 0 4px"
+                    role="status"
+                  >
+                    <p style="margin: 0; display: flex; align-items: baseline; gap: 6px">
+                      <span
+                        style="
+                          font-size: 28px;
+                          line-height: 32px;
+                          font-weight: 800;
+                          letter-spacing: -0.02em;
+                        "
+                        >{{ done }}</span
+                      >
+                      <span style="font-size: 15px; font-weight: 700; color: #5b6661"
+                        >{{ doneLabel }}</span
+                      >
+                    </p>
+                    <div aria-hidden="true" style="display: flex; gap: 4px; height: 6px">
+                      <sc-for list="{{ segs }}" as="sg" hint-placeholder-count="4">
+                        <div style="flex:1;border-radius:3px;background:{{ sg.c }}"></div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+                <ol
+                  style="
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    display: grid;
+                    grid-template-columns: repeat(7, minmax(0, 1fr));
+                    gap: 2px;
+                  "
+                >
+                  <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+                    <li>
+                      <button
+                        onClick="{{ d.onTap }}"
+                        aria-label="{{ d.aria }}"
+                        style="width:100%;min-height:68px;border-radius:14px;border:1.5px solid {{ d.border }};background:{{ d.bg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:6px 0;color:#1b2421"
+                      >
+                        <span
+                          style="font-size:12px;line-height:16px;font-weight:700;color:{{ d.wdColor }}"
+                          >{{ d.wd }}</span
+                        >
+                        <span
+                          style="font-size:17px;line-height:20px;font-weight:800;color:{{ d.numColor }}"
+                          >{{ d.num }}</span
+                        >
+                        <span
+                          style="
+                            height: 18px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          "
+                        >
+                          <sc-if value="{{ d.isDone }}"
+                            ><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <circle cx="12" cy="12" r="11" fill="#2f7d4a"></circle>
+                              <path
+                                d="m7.5 12.5 3 3 6-6.5"
+                                fill="none"
+                                stroke="#ffffff"
+                                stroke-width="2.6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></path></svg
+                          ></sc-if>
+                          <sc-if value="{{ d.isPlanned }}"
+                            ><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <circle
+                                cx="12"
+                                cy="12"
+                                r="9.5"
+                                fill="none"
+                                stroke="#0f6e62"
+                                stroke-width="2.6"
+                              ></circle></svg
+                          ></sc-if>
+                          <sc-if value="{{ d.isLive }}"
+                            ><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <circle cx="12" cy="12" r="11" fill="#e3714d"></circle>
+                              <polygon points="10 8 16.5 12 10 16" fill="#2a0f05"></polygon></svg
+                          ></sc-if>
+                          <sc-if value="{{ d.isSkipped }}"
+                            ><svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#66716c"
+                              stroke-width="2.4"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              aria-hidden="true"
+                            >
+                              <polygon points="5 5 14 12 5 19 5 5"></polygon>
+                              <line x1="19" x2="19" y1="5" y2="19"></line></svg
+                          ></sc-if>
+                          <sc-if value="{{ d.isMissed }}"
+                            ><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <circle
+                                cx="12"
+                                cy="12"
+                                r="11"
+                                fill="#fbefd4"
+                                stroke="#8a5a00"
+                                stroke-width="2"
+                              ></circle>
+                              <path
+                                d="M12 7v6"
+                                stroke="#8a5a00"
+                                stroke-width="2.6"
+                                stroke-linecap="round"
+                              ></path>
+                              <circle cx="12" cy="16.6" r="1.4" fill="#8a5a00"></circle></svg
+                          ></sc-if>
+                          <sc-if value="{{ d.isRest }}"
+                            ><span
+                              style="
+                                width: 4px;
+                                height: 4px;
+                                border-radius: 2px;
+                                background: #c9c8bf;
+                              "
+                            ></span
+                          ></sc-if>
+                        </span>
+                      </button>
+                    </li>
+                  </sc-for>
+                </ol>
+                <sc-if value="{{ insight }}" hint-placeholder-val="{{ false }}">
+                  <div
+                    style="
+                      border-top: 1px solid #eeeee8;
+                      margin: 0 4px;
+                      padding-top: 12px;
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                    "
+                  >
+                    <span
+                      style="
+                        width: 32px;
+                        height: 32px;
+                        flex: none;
+                        border-radius: 999px;
+                        background: #dcefe9;
+                        color: #0a5249;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M16 7h6v6"></path>
+                        <path d="m22 7-8.5 8.5-5-5L2 17"></path>
+                      </svg>
+                    </span>
+                    <p
+                      style="
+                        margin: 0;
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-weight: 600;
+                        text-wrap: pretty;
+                      "
+                    >
+                      {{ insight }}
+                    </p>
+                  </div>
+                </sc-if>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ showUpNext }}" hint-placeholder-val="{{ true }}">
+              <section
+                aria-labelledby="next-title"
+                style="display: flex; flex-direction: column; gap: 6px"
+              >
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 4px;
+                  "
+                >
+                  <h2
+                    id="next-title"
+                    style="margin: 0; font-size: 17px; line-height: 24px; font-weight: 800"
+                  >
+                    Up next
+                  </h2>
+                  <button
+                    onClick="{{ onSchedule }}"
+                    style="
+                      min-height: 44px;
+                      border: 0;
+                      background: transparent;
+                      color: #0f6e62;
+                      font-size: 15px;
+                      font-weight: 700;
+                      display: flex;
+                      align-items: center;
+                      gap: 2px;
+                      cursor: pointer;
+                      margin-right: -6px;
+                    "
+                  >
+                    Full schedule
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                  </button>
+                </div>
+                <ul
+                  style="
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    background: #ffffff;
+                    border-radius: 20px;
+                    box-shadow:
+                      0 1px 2px rgb(27 36 33 / 0.04),
+                      0 4px 16px rgb(27 36 33 / 0.05);
+                    overflow: hidden;
+                  "
+                >
+                  <sc-for list="{{ upcoming }}" as="u" hint-placeholder-count="2">
+                    <li style="border-top:{{ u.divider }}">
+                      <button
+                        onClick="{{ u.onTap }}"
+                        style="
+                          width: 100%;
+                          border: 0;
+                          background: transparent;
+                          text-align: left;
+                          cursor: pointer;
+                          display: flex;
+                          align-items: center;
+                          gap: 14px;
+                          padding: 14px 14px 14px 16px;
+                          min-height: 72px;
+                          color: #1b2421;
+                        "
+                        style-active="background:#eeeee8"
+                      >
+                        <span
+                          style="
+                            width: 44px;
+                            flex: none;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                          "
+                        >
+                          <span
+                            style="
+                              font-size: 12px;
+                              font-weight: 700;
+                              text-transform: uppercase;
+                              color: #5b6661;
+                            "
+                            >{{ u.wd }}</span
+                          >
+                          <span style="font-size: 20px; line-height: 24px; font-weight: 800"
+                            >{{ u.num }}</span
+                          >
+                        </span>
+                        <span
+                          style="
+                            flex: 1;
+                            min-width: 0;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 1px;
+                          "
+                        >
+                          <span
+                            style="
+                              font-size: 13px;
+                              line-height: 18px;
+                              font-weight: 700;
+                              color: #0a5249;
+                            "
+                            >{{ u.rel }}</span
+                          >
+                          <span style="font-size: 16px; line-height: 22px; font-weight: 700"
+                            >{{ u.title }}</span
+                          >
+                          <span style="font-size: 14px; line-height: 20px; color: #5b6661"
+                            >{{ u.meta }}</span
+                          >
+                        </span>
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#66716c"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                          style="flex: none"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </button>
+                    </li>
+                  </sc-for>
+                </ul>
+              </section>
+            </sc-if>
+          </div>
+        </div>
+
+        <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+          <div
+            role="status"
+            style="
+              position: absolute;
+              left: 20px;
+              right: 20px;
+              bottom: 112px;
+              background: #1b2421;
+              color: #eef2ef;
+              border-radius: 14px;
+              padding: 13px 16px;
+              font-size: 14px;
+              line-height: 20px;
+              font-weight: 600;
+              box-shadow: 0 12px 32px rgb(27 36 33 / 0.2);
+              animation: mwRise 240ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+            "
+          >
+            {{ toast }}
+          </div>
+        </sc-if>
+
+        <nav
+          aria-label="Main navigation"
+          style="
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px) saturate(1.5);
+            -webkit-backdrop-filter: blur(20px) saturate(1.5);
+            box-shadow: 0 -1px 0 rgb(27 36 33 / 0.06);
+            padding-bottom: 30px;
+          "
+        >
+          <ul
+            style="
+              list-style: none;
+              margin: 0;
+              padding: 0;
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+            "
+          >
+            <li>
+              <span
+                aria-current="page"
+                style="
+                  min-height: 64px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 4px;
+                  font-size: 12px;
+                  font-weight: 700;
+                  color: #0a5249;
+                "
+              >
+                <span
+                  style="
+                    width: 56px;
+                    height: 32px;
+                    border-radius: 999px;
+                    background: #dcefe9;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                    <path
+                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    ></path></svg></span
+                >Today</span
+              >
+            </li>
+            <li>
+              <span
+                style="
+                  min-height: 64px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 4px;
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #5b6661;
+                "
+              >
+                <span
+                  style="
+                    width: 56px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="m3 17 2 2 4-4"></path>
+                    <path d="m3 7 2 2 4-4"></path>
+                    <path d="M13 6h8"></path>
+                    <path d="M13 12h8"></path>
+                    <path d="M13 18h8"></path></svg></span
+                >Programs</span
+              >
+            </li>
+            <li>
+              <span
+                style="
+                  min-height: 64px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 4px;
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #5b6661;
+                "
+              >
+                <span
+                  style="
+                    width: 56px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+                    <path d="m19 9-5 5-4-4-3 3"></path></svg></span
+                >Progress</span
+              >
+            </li>
+            <li>
+              <span
+                style="
+                  min-height: 64px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 4px;
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #5b6661;
+                "
+              >
+                <span
+                  style="
+                    width: 56px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="8" r="5"></circle>
+                    <path d="M20 21a8 8 0 0 0-16 0"></path></svg></span
+                >Profile</span
+              >
+            </li>
+          </ul>
+          <div
+            style="
+              position: absolute;
+              bottom: 8px;
+              left: 50%;
+              margin-left: -67px;
+              width: 134px;
+              height: 5px;
+              border-radius: 3px;
+              background: #1b2421;
+            "
+          ></div>
+        </nav>
+      </div>
+    </x-dc>
+    <script
+      type="text/x-dc"
+      data-dc-script
+      data-props='{"$preview":{"width":390,"height":844},"state":{"editor":"enum","options":["planned","in_progress","completed","rest","missed","unplanned","no_program","loading","offline"],"default":"planned","tsType":"string"},"showDuration":{"editor":"boolean","default":false,"tsType":"boolean"},"name":{"editor":"text","default":"Ana","tsType":"string"}}'
+    >
+      const W = {
+        L: { title: 'Full body — Light', focus: 'Light', ex: 6, min: 35, time: '18:00' },
+        S: { title: 'Full body — Strong', focus: 'Strong', ex: 8, min: 50, time: '18:00' },
+        M: { title: 'Mobility', focus: 'Mobility', ex: 7, min: 25, time: '10:00' },
+      };
+      const SC = {
+        planned: { 0: ['done', 'L'], 1: ['planned', 'S'], 3: ['planned', 'M'], 5: ['planned', 'L'] },
+        in_progress: { 0: ['done', 'L'], 1: ['live', 'S'], 3: ['planned', 'M'], 5: ['planned', 'L'] },
+        completed: { 0: ['done', 'L'], 1: ['done', 'S'], 3: ['planned', 'M'], 5: ['planned', 'L'] },
+        rest: { 0: ['done', 'L'], 2: ['planned', 'S'], 4: ['planned', 'M'] },
+        rest_skipped: { 0: ['skipped', 'L'], 3: ['planned', 'S'], 5: ['planned', 'M'] },
+        missed: { 0: ['missed', 'L'], 3: ['planned', 'S'], 5: ['planned', 'M'] },
+        moved: { 1: ['planned', 'L'], 3: ['planned', 'S'], 5: ['planned', 'M'] },
+        unplanned: {},
+        no_program: {},
+      };
+      const PAST = { 0: ['done', 'L'], 1: ['done', 'S'], 3: ['done', 'M'], 5: ['done', 'L'] };
+      const FUTURE = { 0: ['planned', 'L'], 1: ['planned', 'S'], 3: ['planned', 'M'], 5: ['planned', 'L'] };
+      const WD = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const WDL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      const MS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const ML = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const STL = { done: 'Completed', planned: 'Planned', live: 'Started', skipped: 'Skipped', missed: 'Not logged', rest: 'No workout' };
+
+      class Component extends DCLogic {
+        state = { s: null, week: 0, toast: null };
+        componentDidUpdate(pp) { if (pp.state !== this.props.state) this.setState({ s: null, week: 0 }); }
+        componentWillUnmount() { clearTimeout(this._t); }
+        say(msg) { clearTimeout(this._t); this.setState({ toast: msg }); this._t = setTimeout(() => this.setState({ toast: null }), 2400); }
+        go(s, msg) { this.setState({ s, week: 0 }); if (msg) this.say(msg); }
+
+        renderVals() {
+          const raw = this.state.s ?? this.props.state ?? 'planned';
+          const isOffline = raw === 'offline';
+          const isLoading = raw === 'loading';
+          const s = isOffline || isLoading ? 'planned' : raw;
+          const dur = !!this.props.showDuration;
+          const name = this.props.name ?? 'Ana';
+          const week = this.state.week;
+          const meta = (w) => `${w.focus} · ${w.ex} exercises${dur ? ` · ~${w.min} min` : ''}`;
+
+          const date = (i, k = week) => new Date(2026, 8, 28 + k * 7 + i);
+          const src = week < 0 ? PAST : week > 0 ? FUTURE : SC[s] || {};
+          const days = WD.map((wd, i) => {
+            const e = src[i];
+            const st = e ? e[0] : 'rest';
+            const w = e ? W[e[1]] : null;
+            const isToday = week === 0 && i === 1;
+            const d = date(i);
+            return {
+              wd, num: d.getDate(), st, w, i,
+              isDone: st === 'done', isPlanned: st === 'planned', isLive: st === 'live',
+              isSkipped: st === 'skipped', isMissed: st === 'missed', isRest: st === 'rest',
+              bg: isToday ? '#dcefe9' : 'transparent',
+              border: isToday ? '#0f6e62' : 'transparent',
+              wdColor: isToday ? '#0a5249' : '#5b6661',
+              numColor: isToday ? '#0a5249' : '#1b2421',
+              aria: `${WDL[i]} ${d.getDate()} ${ML[d.getMonth()]}: ${w ? w.title + ', ' : ''}${STL[st]}${isToday ? ' (today)' : ''}`,
+              onTap: () => this.say(`Opens ${WDL[i]}, ${d.getDate()} ${ML[d.getMonth()]}`),
+            };
+          });
+          const counted = days.filter((d) => d.w && d.st !== 'skipped');
+          const done = counted.filter((d) => d.isDone).length;
+          const segs = counted.map((d) => ({ c: d.isDone ? '#2f7d4a' : d.isLive ? '#e3714d' : d.isMissed ? '#e8c77a' : '#deddd5' }));
+
+          const cur = SC[s] || {};
+          const upAll = WD.map((wd, i) => ({ i, e: cur[i] })).filter((x) => x.i > 1 && x.e && x.e[0] === 'planned');
+          const upcoming = upAll.slice(0, 3).map((x, n) => {
+            const w = W[x.e[1]]; const d = date(x.i, 0);
+            return {
+              wd: WD[x.i], num: d.getDate(), rel: x.i === 2 ? 'Tomorrow' : WDL[x.i], title: w.title,
+              meta: `${meta(w)} · ${w.time}`, divider: n ? '1px solid #eeeee8' : '0',
+              onTap: () => this.say(`Opens ${w.title}`),
+            };
+          });
+          const nx = upcoming[0];
+          const tw = cur[1] ? W[cur[1][1]] : W.S;
+          const left = counted.length - done;
+
+          const ctx = {
+            planned: `One workout today, planned for ${tw.time}.`,
+            in_progress: 'You have a workout in progress. Pick up where you left off.',
+            completed: `Today’s workout is done. ${left === 1 ? 'One workout' : left + ' workouts'} left this week.`,
+            rest: 'No workout today. Your next one is tomorrow.',
+            rest_skipped: 'No workout today. Your next one is Thursday.',
+            missed: 'Monday’s workout wasn’t logged. You still have time this week.',
+            moved: `One workout today, planned for ${tw.time}.`,
+            unplanned: 'Nothing is planned for this week yet.',
+            no_program: 'Set up a program to start planning your week.',
+          };
+          const insight = week !== 0 ? null
+            : ['planned', 'in_progress', 'completed', 'rest', 'moved'].includes(s) ? 'Last week you completed all 4 planned workouts.'
+            : null;
+          const heroWorkout = !isLoading && ['planned', 'in_progress', 'completed', 'moved'].includes(s);
+          const wk0 = date(0), wk6 = date(6);
+
+          return {
+            isOffline, isLoading,
+            dateLabel: 'Tuesday, 29 September',
+            greeting: name ? `Good afternoon, ${name}` : 'Good afternoon',
+            context: isLoading ? 'Loading your week…' : ctx[s],
+            heroWorkout, tw: { ...tw, focus: tw.focus },
+            isPlanned: s === 'planned' || s === 'moved', isLive: s === 'in_progress', isDone: s === 'completed',
+            heroEyebrow: s === 'in_progress' ? 'In progress · since 18:04' : s === 'completed' ? 'Completed · 18:52' : `Today · ${tw.time}`,
+            heroMeta: s === 'in_progress' ? `3 of ${tw.ex} exercises done` : s === 'completed' ? `${tw.ex} of ${tw.ex} exercises done` : `${tw.ex} exercises${dur ? ` · ~${tw.min} min` : ''}`,
+            livePct: `${Math.round((3 / tw.ex) * 100)}%`,
+            ctaOpacity: isOffline ? 0.45 : 1,
+            liveDot: React.createElement('span', { 'aria-hidden': true, style: { width: 8, height: 8, borderRadius: 4, background: '#f08a66', animation: 'mwLive 1.6s cubic-bezier(0.2,0,0,1) infinite', flex: 'none' } }),
+            isRest: !isLoading && (s === 'rest' || s === 'rest_skipped'),
+            nextW: nx || {},
+            isMissed: !isLoading && s === 'missed',
+            isUnplanned: !isLoading && s === 'unplanned',
+            isNoProgram: !isLoading && s === 'no_program',
+            showWeek: !isLoading && s !== 'no_program',
+            weekTitle: week === 0 ? 'This week' : `Week of ${wk0.getDate()} ${ML[wk0.getMonth()]}`,
+            weekRange: `${wk0.getDate()} ${MS[wk0.getMonth()]} – ${wk6.getDate()} ${MS[wk6.getMonth()]}`,
+            notThisWeek: week !== 0,
+            hasCounted: counted.length > 0,
+            done, doneLabel: `of ${counted.length} workouts done`, segs, days, insight,
+            showUpNext: !isLoading && upcoming.length > 0 && !['rest', 'rest_skipped'].includes(s) || (!isLoading && ['rest', 'rest_skipped'].includes(s) && upcoming.length > 1),
+            upcoming: ['rest', 'rest_skipped'].includes(s) ? upcoming.slice(1) : upcoming,
+            toast: this.state.toast,
+            onStart: () => !isOffline && this.go('in_progress', 'Workout started'),
+            onContinue: () => this.go('completed', 'Workout completed. Nice work.'),
+            onSummary: () => this.say('Opens the session summary'),
+            onDetails: () => this.say(`Opens ${tw.title}`),
+            onNext: () => nx && this.say(`Opens ${nx.title}`),
+            onAdd: () => this.say('Opens Add workout for today'),
+            onMove: () => this.go('moved', 'Moved to today'),
+            onSkip: () => this.go('rest_skipped', 'Marked as skipped'),
+            onPlan: () => this.go('planned', '4 workouts planned.'),
+            onStarter: () => this.go('unplanned', 'Starter program is active'),
+            onOwn: () => this.say('Opens Programs → New program'),
+            onSchedule: () => this.say('Opens the full calendar'),
+            onPrev: () => this.setState((x) => ({ week: x.week - 1 })),
+            onNextWeek: () => this.setState((x) => ({ week: x.week + 1 })),
+            onThisWeek: () => this.setState({ week: 0 }),
+          };
+        }
+      }
+    </script>
+  </body>
+</html>

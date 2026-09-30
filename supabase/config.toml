@@ -246,12 +246,13 @@ otp_expiry = 900
 # sender_name = "Admin"
 
 # Sign-in code emails (OTP). New users get the confirmation template, existing ones magic_link.
+# The code is in the subject: mail apps (Gmail's "Copy code", iOS "From Mail") detect it there.
 [auth.email.template.magic_link]
-subject = "Motion Within: kod za prijavu / sign-in code"
+subject = "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}Your Motion Within code: {{ .Token }}{{ else }}Tvoj Motion Within kod: {{ .Token }}{{ end }}"
 content_path = "./supabase/templates/otp.html"
 
 [auth.email.template.confirmation]
-subject = "Motion Within: kod za prijavu / sign-in code"
+subject = "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}Your Motion Within code: {{ .Token }}{{ else }}Tvoj Motion Within kod: {{ .Token }}{{ end }}"
 content_path = "./supabase/templates/otp.html"
 
 # Uncomment to customize email template

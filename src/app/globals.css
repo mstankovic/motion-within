@@ -43,8 +43,17 @@
   --color-hero-deep: #083f38;
   --color-on-hero: #eef7f4;
   --color-on-hero-muted: #a9d3c9;
+  --color-on-hero-soft: #cfe7e0;
+  /* Live state on the hero (dot, progress fill) and "completed" check on the hero. */
+  --color-accent-bright: #f08a66;
+  --color-success-bright: #5fcf85;
+  /* Week bar "not logged" segment, "no workout" day dot, outline on brand-soft surfaces. */
+  --color-warning-bar: #e8c77a;
+  --color-dot: #c9c8bf;
+  --color-brand-line: #b9d9d0;
 
   --radius-control: 0.875rem;
+  --radius-row: 1.125rem;
   --radius-card: 1.25rem;
   --radius-sheet: 1.75rem;
 
@@ -82,6 +91,8 @@
   --animate-breathe: mw-breathe 3.2s var(--ease-standard) 600ms infinite;
   --animate-draw: mw-draw 520ms var(--ease-enter) both;
   --animate-float: mw-float 6s ease-in-out infinite;
+  --animate-toast-in: mw-toast-in 240ms var(--ease-enter) both;
+  --animate-fill: mw-fill 520ms var(--ease-enter) both;
   --animate-ring: mw-ring 520ms var(--ease-enter);
   --animate-sheet-in: mw-sheet-in 360ms var(--ease-enter) both;
   --animate-sheet-out: mw-sheet-out 240ms var(--ease-exit) both;
@@ -166,6 +177,18 @@
       stroke-dashoffset: 0;
     }
   }
+  @keyframes mw-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  /* A bar segment filling from the left (week progress). */
+  @keyframes mw-fill {
+    from {
+      transform: scaleX(0);
+    }
+  }
   @keyframes mw-float {
     50% {
       translate: 0 -6px;
@@ -226,6 +249,9 @@
 
     --color-hero: #0d302b;
     --color-hero-deep: #081c19;
+    --color-warning-bar: #8f6d24;
+    --color-dot: #3d4944;
+    --color-brand-line: #24544c;
 
     --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.25);
     --shadow-raised: 0 2px 4px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.45);

@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
+import { ToastProvider } from "@/components/ui/toast";
 import { ServiceWorkerRegistrar } from "./service-worker-registrar";
 
 export function Providers({ children }: { children: ReactNode }) {
@@ -16,7 +17,7 @@ export function Providers({ children }: { children: ReactNode }) {
   );
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <ToastProvider>{children}</ToastProvider>
       <ServiceWorkerRegistrar />
     </QueryClientProvider>
   );

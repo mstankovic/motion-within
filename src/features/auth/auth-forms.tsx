@@ -1,60 +1,78 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
-import { ArrowRight, ChevronLeft, Mail } from "lucide-react";
+import { ArrowRight, ChevronLeft, ClipboardPaste, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/field";
 import { cn } from "@/lib/cn";
 import { FormMessage } from "@/components/app/form-message";
-import { OTP_LENGTH } from "@/lib/validation/auth";
+import { keyboardHeight, useKeyboardInset } from "@/lib/hooks/use-keyboard-inset";
+import { extractCode, OTP_LENGTH } from "@/lib/validation/auth";
 import { requestOtp, verifyOtp, type AuthState } from "./actions";
 import { PasskeySignInButton, usePasskeySignIn } from "./passkey-ui";
 
 const initial: AuthState = {};
 const RESEND_COOLDOWN_S = 60;
 
-/** Passwordless sign-in: email → emailed code. The first sign-in creates the account. */
+/**
+ * Passwordless sign-in: email → emailed code. The first sign-in creates the account.
+ * Both steps post straight to server actions, so they also work before the page's JavaScript
+ * has loaded (slow network): the server renders the next step.
+ */
 export function LoginForm({ next, linkError }: { next?: string; linkError?: boolean }) {
-  const [email, setEmail] = useState<string | null>(null);
-  const [lastEmail, setLastEmail] = useState("");
+  useKeyboardInset();
+  const [sent, sendAction, sending] = useActionState(requestOtp, initial, "/login");
+  // "Change email" hides the code step for this particular send.
+  const [dismissed, setDismissed] = useState<AuthState | null>(null);
+  const [email, setEmail] = useState("");
 
-  if (email) {
+  if (sent.sentTo && sent !== dismissed) {
+    const sentTo = sent.sentTo;
     return (
       <CodeStep
-        email={email}
+        email={sentTo}
         next={next}
         onChangeEmail={() => {
-          setLastEmail(email);
-          setEmail(null);
+          setEmail(sentTo);
+          setDismissed(sent);
         }}
       />
     );
   }
-  return <EmailStep defaultEmail={lastEmail} next={next} linkError={linkError} onSent={setEmail} />;
+  return (
+    <EmailStep
+      email={email}
+      onEmailChange={setEmail}
+      state={sent}
+      action={sendAction}
+      pending={sending}
+      next={next}
+      linkError={linkError}
+    />
+  );
 }
 
 function EmailStep({
-  defaultEmail,
+  email,
+  onEmailChange,
+  state,
+  action,
+  pending,
   next,
   linkError,
-  onSent,
 }: {
-  defaultEmail: string;
+  email: string;
+  onEmailChange: (email: string) => void;
+  state: AuthState;
+  action: (formData: FormData) => void;
+  pending: boolean;
   next?: string;
   linkError?: boolean;
-  onSent: (email: string) => void;
 }) {
   const t = useTranslations("auth");
   const tp = useTranslations("passkey");
   const passkey = usePasskeySignIn(next);
-  // Controlled so the address survives React's form reset after an action (e.g. on an error).
-  const [email, setEmail] = useState(defaultEmail);
-  const [state, action, pending] = useActionState(async (prev: AuthState, formData: FormData) => {
-    const result = await requestOtp(prev, formData);
-    if (result.sentTo) onSent(result.sentTo);
-    return result;
-  }, initial);
   const error = state.error ?? (linkError ? "linkInvalid" : undefined);
   const errorText = error
     ? t(`errors.${error}`)
@@ -69,7 +87,7 @@ function EmailStep({
       {passkey.showButton ? (
         <PasskeySignInButton onClick={passkey.signInWithButton} pending={passkey.pending} />
       ) : null}
-      <form action={action} className="space-y-3">
+      <form action={action} className="space-y-3" data-keep-visible>
         <Field label={<span className="sr-only">{t("email")}</span>}>
           {({ id }) => (
             <div className="relative">
@@ -87,17 +105,24 @@ function EmailStep({
                 autoCapitalize="none"
                 spellCheck={false}
                 placeholder={t("emailPlaceholder")}
+                // Controlled so the address survives React's form reset after an action.
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => onEmailChange(e.target.value)}
                 className="h-14 pl-11"
                 required
               />
             </div>
           )}
         </Field>
-        <Button type="submit" size="lg" disabled={pending} aria-busy={pending}>
-          {t("continue")}
-          <ArrowRight aria-hidden="true" />
+        <Button type="submit" size="lg" loading={pending}>
+          {pending ? (
+            t("sending")
+          ) : (
+            <>
+              {t("continue")}
+              <ArrowRight aria-hidden="true" />
+            </>
+          )}
         </Button>
       </form>
     </div>
@@ -118,14 +143,16 @@ function CodeStep({
   const inputRef = useRef<HTMLInputElement>(null);
   const [code, setCode] = useState("");
 
-  const [state, action, pending] = useActionState(async (prev: AuthState, formData: FormData) => {
-    const result = await verifyOtp(prev, formData);
-    if (result.error) {
-      setCode("");
-      inputRef.current?.focus();
-    }
-    return result;
-  }, initial);
+  const [state, action, pending] = useActionState(verifyOtp, initial, "/login");
+  // A wrong or expired code clears the boxes (adjusting state during render, not in an effect).
+  const [seen, setSeen] = useState(state);
+  if (state !== seen) {
+    setSeen(state);
+    if (state.error) setCode("");
+  }
+  useEffect(() => {
+    if (state.error) inputRef.current?.focus();
+  }, [state]);
 
   const [resendAt, setResendAt] = useState(() => Date.now() + RESEND_COOLDOWN_S * 1000);
   const [resendState, resendAction, resending] = useActionState(
@@ -138,13 +165,21 @@ function CodeStep({
   );
   const secondsLeft = useSecondsUntil(resendAt);
 
-  function onCodeChange(value: string) {
-    const digits = value.replace(/\D/g, "").slice(0, OTP_LENGTH);
-    setCode(digits);
-    // Submit as soon as the full code is typed or pasted (iOS/Android autofill included).
-    if (digits.length === OTP_LENGTH && !pending) {
-      queueMicrotask(() => formRef.current?.requestSubmit());
+  // Submit as soon as the full code is typed, pasted or autofilled — after React has written it
+  // into the input, otherwise the form's own validation still sees the old value.
+  const submitWhenComplete = useRef(false);
+  useEffect(() => {
+    if (submitWhenComplete.current && code.length === OTP_LENGTH) {
+      submitWhenComplete.current = false;
+      formRef.current?.requestSubmit();
     }
+  }, [code]);
+
+  function onCodeChange(value: string) {
+    // Typing adds one digit at a time; pasted or autofilled text may be a whole sentence.
+    const digits = extractCode(value) ?? value.replace(/\D/g, "").slice(0, OTP_LENGTH);
+    setCode(digits);
+    submitWhenComplete.current = digits.length === OTP_LENGTH && !pending;
   }
 
   const error = state.error ?? resendState.error;
@@ -179,7 +214,7 @@ function CodeStep({
         error={error ? t(`errors.${error}`) : null}
         success={resendState.sentTo && !error ? t("codeResent") : null}
       />
-      <form ref={formRef} action={action} className="space-y-4">
+      <form ref={formRef} action={action} className="space-y-4" data-keep-visible>
         <input type="hidden" name="email" value={email} />
         <input type="hidden" name="next" value={next ?? ""} />
         <Label htmlFor="otp" className="sr-only">
@@ -192,13 +227,11 @@ function CodeStep({
           invalid={Boolean(state.error)}
           onChange={onCodeChange}
         />
-        <Button
-          type="submit"
-          size="lg"
-          disabled={pending || code.length !== OTP_LENGTH}
-          aria-busy={pending}
-        >
-          {t("signIn")}
+        <PasteCodeButton onCode={onCodeChange} />
+        {/* Not disabled while incomplete: the input's pattern blocks that, and a disabled button
+            would never work before the page's JavaScript loads. */}
+        <Button type="submit" size="lg" loading={pending}>
+          {pending ? t("checking") : t("signIn")}
         </Button>
       </form>
       <form action={resendAction} className="mt-3 text-center text-sm">
@@ -236,12 +269,19 @@ function CodeBoxes({
         name="token"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onPointerDown={(e) => {
+          // Focused on arrival (autoFocus) but iOS did not open the keyboard for it. A tap on an
+          // already focused field then opens the keyboard without scrolling the field into view;
+          // dropping focus first makes the tap a real focus, which iOS scrolls for.
+          if (document.activeElement === e.currentTarget && !keyboardHeight()) {
+            e.currentTarget.blur();
+          }
+        }}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         inputMode="numeric"
         autoComplete="one-time-code"
         pattern={`\\d{${OTP_LENGTH}}`}
-        maxLength={OTP_LENGTH + 2}
         aria-invalid={invalid || undefined}
         className="absolute inset-0 z-10 h-full w-full cursor-text text-base opacity-0"
         required
@@ -265,6 +305,47 @@ function CodeBoxes({
           );
         })}
       </div>
+    </div>
+  );
+}
+
+const noop = () => () => {};
+
+/**
+ * One tap to use a code copied from the email (e.g. Gmail's "Copy code"). Needs the async
+ * clipboard API, which browsers offer only on HTTPS (and localhost); long-press paste into the
+ * boxes works everywhere.
+ */
+function PasteCodeButton({ onCode }: { onCode: (code: string) => void }) {
+  const t = useTranslations("auth");
+  const supported = useSyncExternalStore(
+    noop,
+    () => window.isSecureContext && typeof navigator.clipboard?.readText === "function",
+    () => false,
+  );
+  const [message, setMessage] = useState<string | null>(null);
+  if (!supported) return null;
+
+  async function paste() {
+    setMessage(null);
+    try {
+      const code = extractCode(await navigator.clipboard.readText());
+      if (code) onCode(code);
+      else setMessage(t("pasteNoCode"));
+    } catch {
+      // Permission refused or dismissed: nothing to do, the boxes still accept a long-press paste.
+    }
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <Button variant="ghost" size="sm" onClick={paste}>
+        <ClipboardPaste aria-hidden="true" />
+        {t("pasteCode")}
+      </Button>
+      <p role="status" className="text-ink-muted text-sm">
+        {message}
+      </p>
     </div>
   );
 }

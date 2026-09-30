@@ -79,7 +79,7 @@ test("passwordless sign-in: wrong code, session survives restart, returning user
   // "Restarting the app": a fresh tab in the same browser profile stays signed in.
   const again = await context.newPage();
   await again.goto("/");
-  await again.waitForURL("**/calendar");
+  await again.waitForURL("**/today");
   await again.close();
 
   await page.goto("/profile");
@@ -97,5 +97,5 @@ test("passwordless sign-in: wrong code, session survives restart, returning user
 
   await page.getByLabel("Kod iz emaila").fill(await readOtp(email));
   // Returning users skip onboarding.
-  await page.waitForURL("**/calendar");
+  await page.waitForURL("**/today");
 });

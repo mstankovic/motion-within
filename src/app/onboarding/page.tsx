@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function OnboardingPage() {
   const profile = await getProfile();
-  if (profile.onboarding_completed) redirect("/calendar");
+  if (profile.onboarding_completed) redirect("/today");
   const locale = await getLocale();
 
   return (

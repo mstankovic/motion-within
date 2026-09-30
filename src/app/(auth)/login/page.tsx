@@ -20,7 +20,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   return (
     <>
       <LoginHero />
-      <section className="bg-surface animate-sheet-in rounded-t-[var(--radius-sheet)] px-5 pt-6 pb-[max(env(safe-area-inset-bottom),1.5rem)] shadow-[var(--shadow-sheet)]">
+      <section className="bg-surface animate-sheet-in rounded-t-[var(--radius-sheet)] px-5 pt-6 pb-[calc(max(env(safe-area-inset-bottom),1.5rem)+var(--keyboard-inset,0px))] shadow-[var(--shadow-sheet)]">
         <LoginForm
           next={typeof next === "string" ? next : undefined}
           linkError={error === "linkInvalid"}

@@ -1,14 +1,17 @@
 import { expect, test } from "@playwright/test";
 import { registerAndOnboard } from "./helpers";
 
-test("register → onboarding → calendar shows the starter plan", async ({ page }) => {
+test("register → onboarding → Today shows the starter plan", async ({ page }) => {
   await registerAndOnboard(page);
-  await expect(page.getByText(/od 3 treninga završeno/)).toBeVisible();
+  await expect(page.getByText(/od 3 treninga urađeno/)).toBeVisible();
+  // One of the Today card states, depending on the weekday the test runs on.
   await expect(
     page
       .getByRole("link", { name: "Započni trening" })
-      .or(page.getByText("Danas nema planiranog treninga")),
+      .or(page.getByRole("heading", { name: "Dan za odmor" }))
+      .or(page.getByText(/^Nije zabeleženo/)),
   ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Danas", exact: true })).toHaveAttribute("aria-current", "page");
 });
 
 test("start workout → log three sets (with a network drop) → finish → history", async ({

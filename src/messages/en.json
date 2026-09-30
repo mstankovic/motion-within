@@ -33,16 +33,17 @@
     "notFoundTitle": "Not found",
     "notFoundBody": "This page doesn’t exist or you don’t have access to it.",
     "goToCalendar": "Go to calendar",
-    "offlineBadge": "Offline",
     "kg": "kg",
     "cm": "cm",
     "seconds": "s",
     "min": "min",
     "reps": "reps",
     "sets": "sets",
-    "rounds": "rounds"
+    "rounds": "rounds",
+    "offlineBanner": "Offline. Your plan is saved on this phone; starting a workout needs a connection."
   },
   "nav": {
+    "today": "Today",
     "calendar": "Calendar",
     "programs": "Programs",
     "progress": "Progress",
@@ -54,7 +55,10 @@
     "codeTitle": "Enter the code",
     "codeSubtitle": "We sent it to <b>{email}</b>",
     "code": "Code from the email",
+    "pasteCode": "Paste code",
+    "pasteNoCode": "The clipboard has no 6-digit code.",
     "signIn": "Sign in",
+    "checking": "Checking…",
     "signOut": "Sign out",
     "resend": "Send a new code",
     "resendIn": "New code in {seconds}s",
@@ -69,6 +73,7 @@
     },
     "emailPlaceholder": "name@email.com",
     "continue": "Continue",
+    "sending": "Sending code…",
     "formTitle": "Sign in or create an account"
   },
   "welcome": {
@@ -160,7 +165,8 @@
     "in_progress": "Started",
     "completed": "Completed",
     "skipped": "Skipped",
-    "rest": "No workout"
+    "rest": "No workout",
+    "not_logged": "Not logged"
   },
   "intensity": {
     "light": "Light",
@@ -170,26 +176,20 @@
   },
   "calendar": {
     "title": "This week",
+    "schedule": "Schedule",
     "weekOf": "Week of {date}",
     "previousWeek": "Previous week",
     "nextWeek": "Next week",
     "thisWeek": "Today",
     "today": "Today",
-    "weekProgress": "{done} of {planned} workouts completed",
-    "weekProgressNone": "No workouts planned this week",
     "todayCard": "Today",
-    "noWorkoutToday": "No workout planned for today",
-    "noWorkoutTodayBody": "Rest is part of training. You can also add a workout for today.",
     "exerciseCount": "{count, plural, one {# exercise} other {# exercises}}",
     "start": "Start workout",
     "continue": "Continue workout",
     "viewSummary": "View summary",
-    "addWorkout": "Add workout",
     "planWeek": "Plan this week from your program",
     "planWeekDone": "{count, plural, =0 {Everything is already planned.} one {# workout planned.} other {# workouts planned.}}",
     "noActiveProgram": "You don’t have an active program yet.",
-    "createProgram": "Set up a program",
-    "longBreak": "It’s been more than 14 days since your last workout. Consider an easier comeback session — go by feel.",
     "day": {
       "title": "Workouts",
       "empty": "Nothing planned for this day.",
@@ -207,6 +207,61 @@
       "skipped": "Marked as skipped.",
       "added": "Workout added.",
       "removed": "Workout removed."
+    }
+  },
+  "today": {
+    "title": "Today",
+    "greeting": "{part, select, morning {Good morning} afternoon {Good afternoon} other {Good evening}}",
+    "context": {
+      "planned": "{count, plural, one {One workout} other {# workouts}} today{time, select, none {.} other {, planned for {time}.}}",
+      "in_progress": "You have a workout in progress. Pick up where you left off.",
+      "completed": "Today’s workout is done. {left, plural, =0 {That’s everything planned this week.} one {One workout left this week.} other {# workouts left this week.}}",
+      "rest": "No workout today. {when, select, tomorrow {Your next one is tomorrow.} weekday {Your next one is {wd, select, 1 {Monday} 2 {Tuesday} 3 {Wednesday} 4 {Thursday} 5 {Friday} 6 {Saturday} other {Sunday}}.} date {Your next one is on {date}.} other {Enjoy the recovery.}}",
+      "missed": "{wd, select, 1 {Monday} 2 {Tuesday} 3 {Wednesday} 4 {Thursday} 5 {Friday} 6 {Saturday} other {Sunday}}’s workout wasn’t logged. You still have time this week.",
+      "unplanned": "Nothing is planned for this week yet.",
+      "no_program": "Set up a program to start planning your week.",
+      "longBreak": "It’s been over two weeks. Ease back in and go by feel."
+    },
+    "card": {
+      "today": "Today",
+      "todayAt": "Today · {time}",
+      "inProgressSince": "In progress · since {time}",
+      "completedAt": "Completed · {time}",
+      "recovery": "Today · Recovery",
+      "exercisesDone": "{done} of {total} exercises done",
+      "viewWorkout": "View workout",
+      "restTitle": "Rest day",
+      "restBody": "Recovery is part of your program. Your body adapts between sessions.",
+      "nextWorkout": "Next workout",
+      "tomorrow": "Tomorrow",
+      "addWorkoutToday": "Add a workout for today",
+      "notLogged": "Not logged · {day}",
+      "missedBody": "Today is free in your plan. Move it here, or mark it as skipped so your week stays accurate.",
+      "moveToToday": "Move to today",
+      "planTitle": "Plan your week",
+      "planBody": "Your program trains on {days}. Add those days to this week in one tap.",
+      "planButton": "Plan this week",
+      "addSingle": "Add a single workout",
+      "starterEyebrow": "Get started",
+      "starterTitle": "Set up your first program",
+      "starterBody": "The starter program has three days: light full body, stronger full body and mobility. You can change everything later.",
+      "useStarter": "Use the starter program",
+      "buildOwn": "Build my own",
+      "inProgress": "In progress",
+      "markSkipped": "Mark as skipped",
+      "planBodyNoDays": "Add workouts from your program to this week."
+    },
+    "week": {
+      "insightAllDone": "Last week you completed all {count} planned workouts.",
+      "insightPartial": "Last week you completed {done} of {total} planned workouts.",
+      "todayMark": "today",
+      "doneOf": "of {total, plural, one {# workout} other {# workouts}} done"
+    },
+    "upNext": "Up next",
+    "fullSchedule": "Full schedule",
+    "toast": {
+      "moved": "Moved to today",
+      "skipped": "Marked as skipped"
     }
   },
   "programs": {

@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Motion Within",
     short_name: "Motion Within",
     description: "Train. Recover. Progress. — Ponovo pronađi pokret u sebi.",
-    start_url: "/calendar",
+    start_url: "/today",
     scope: "/",
     display: "standalone",
     orientation: "portrait",

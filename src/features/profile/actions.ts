@@ -68,7 +68,7 @@ export async function completeOnboarding(input: OnboardingInput): Promise<Action
 
   // Mark complete last so a failure above lets the user retry onboarding.
   await supabase.from("profiles").update({ onboarding_completed: true }).eq("id", userId);
-  redirect("/calendar");
+  redirect("/today");
 }
 
 export async function updateProfile(input: ProfileInput): Promise<ActionResult> {

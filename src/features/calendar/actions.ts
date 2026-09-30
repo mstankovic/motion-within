@@ -9,6 +9,7 @@ export type Result = { ok: true; count?: number } | { ok: false; error: string }
 
 function refresh() {
   revalidatePath("/calendar", "layout");
+  revalidatePath("/today");
   revalidatePath("/progress");
 }
 

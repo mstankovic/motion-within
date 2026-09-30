@@ -12,6 +12,8 @@ export type CalendarWorkout = {
   intensity: "light" | "strong" | "mobility" | "custom" | null;
   exerciseCount: number | null;
   sessionId: string | null;
+  /** When the linked session was completed (ISO timestamp). */
+  completedAt: string | null;
 };
 
 export async function getWorkoutsInRange(from: IsoDate, to: IsoDate): Promise<CalendarWorkout[]> {
@@ -19,7 +21,7 @@ export async function getWorkoutsInRange(from: IsoDate, to: IsoDate): Promise<Ca
   const { data, error } = await supabase
     .from("scheduled_workouts")
     .select(
-      "id, planned_date, planned_time, title, status, program_day_id, program_days(intensity, workout_blocks(block_exercises(count))), workout_sessions(id, status)",
+      "id, planned_date, planned_time, title, status, program_day_id, program_days(intensity, workout_blocks(block_exercises(count))), workout_sessions(id, status, completed_at)",
     )
     .gte("planned_date", from)
     .lte("planned_date", to)
@@ -44,6 +46,7 @@ export async function getWorkoutsInRange(from: IsoDate, to: IsoDate): Promise<Ca
       intensity: day?.intensity ?? null,
       exerciseCount: count,
       sessionId: session?.id ?? null,
+      completedAt: session?.completed_at ?? null,
     };
   });
 }
@@ -64,16 +67,10 @@ export async function getOpenSession() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("workout_sessions")
-    .select("id, title_snapshot, started_at")
+    .select("id, title_snapshot, started_at, scheduled_workout_id")
     .eq("status", "in_progress")
     .order("started_at", { ascending: false })
     .limit(1)
     .maybeSingle();
   return data;
-}
-
-/** Day with the most important workout first: in progress, planned, then the rest. */
-export function pickTodayWorkout(workouts: CalendarWorkout[]): CalendarWorkout | null {
-  const rank = { in_progress: 0, planned: 1, completed: 2, skipped: 3 } as const;
-  return [...workouts].sort((a, b) => rank[a.status] - rank[b.status])[0] ?? null;
 }

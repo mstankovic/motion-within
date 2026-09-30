@@ -44,7 +44,7 @@ export async function updateSession(request: NextRequest) {
 
   if (signedIn && pathname === "/login") {
     const target = request.nextUrl.clone();
-    target.pathname = "/calendar";
+    target.pathname = "/today";
     target.search = "";
     return redirectWithCookies(target, response);
   }

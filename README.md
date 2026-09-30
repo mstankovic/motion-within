@@ -34,7 +34,12 @@ pnpm dev                 # http://localhost:3000
 ```
 
 Prijava je bez lozinke: korisnik unese email i dobije 6-cifreni kod (prva prijava pravi nalog).
-Lokalno se mejlovi sa kodom vide u Mailpit-u: http://127.0.0.1:54324. Supabase Studio: http://127.0.0.1:54323.
+Lokalno se mejlovi sa kodom vide u Mailpit-u: http://127.0.0.1:54324.
+
+Test na telefonu (ista Wi‑Fi mreža): otvori `http://<IP-laptopa>:3000` (IP: `ipconfig getifaddr en0`).
+`next.config.ts` → `allowedDevOrigins` dozvoljava lokalne mreže (192.168.x, 10.x, 172.x), a browser
+Supabase klijent tada sam gađa laptop umesto `127.0.0.1`. Passkey (brza prijava) na telefonu
+radi tek preko HTTPS-a. Supabase Studio: http://127.0.0.1:54323.
 
 ## Baza: migracije, seed, tipovi
 
@@ -103,7 +108,7 @@ pnpm exec supabase secrets set CRON_SECRET=<dug-random> VAPID_PUBLIC_KEY=... VAP
 
 U Auth podešavanjima: Site URL `https://motionwithin.me`, redirect URL
 `https://motionwithin.me/auth/callback` i podesi SMTP. Email šabloni „Magic link" i „Confirm signup"
-moraju da sadrže `{{ .Token }}` — prenesi `supabase/templates/otp.html` (ili `supabase config push`),
+moraju da sadrže `{{ .Token }}` (i u naslovu, zbog Gmail „Copy code" i iOS predloga koda) — prenesi `supabase/templates/otp.html` (ili `supabase config push`),
 OTP expiry 900 s. Vidi `docs/decisions/0005-passwordless-auth.md`.
 Za brzu prijavu (passkey) uključi Passkeys i podesi WebAuthn: RP ID `motionwithin.me`, origin
 `https://motionwithin.me` (vidi `docs/decisions/0006-passkeys.md`). Lokalno otvaraj aplikaciju na
@@ -141,7 +146,7 @@ Poveži GitHub repozitorijum i postavi env promenljive:
 src/
   app/                 rute (App Router); (auth), (app) sa donjom navigacijom, sessions/, workouts/
   components/ui|app    UI primitive i shell
-  features/            domeni: auth, calendar, programs, exercises, workout-session,
+  features/            domeni: auth, today, calendar, programs, exercises, workout-session,
                        progression, progress, measurements, notifications, profile
   lib/                 supabase klijenti, offline (Dexie + outbox), dates, i18n, validation
   messages/            sr.json, en.json

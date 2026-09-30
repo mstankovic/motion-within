@@ -23,6 +23,7 @@ function refresh(programId?: string) {
   revalidatePath("/programs");
   if (programId) revalidatePath(`/programs/${programId}`);
   revalidatePath("/calendar");
+  revalidatePath("/today");
 }
 
 // Programs --------------------------------------------------------------------

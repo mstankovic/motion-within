@@ -13,6 +13,12 @@
 - **Email template** `supabase/templates/otp.html` is used for both `magic_link` (existing users) and
   `confirmation` (new users) and shows `{{ .Token }}`; language comes from `user_metadata.locale`
   (set at first sign-in). The cloud project needs the same templates.
+- **Copying the code.** The code is in the email subject ("Tvoj Motion Within kod: 123456"),
+  which is what Gmail ("Copy code") and iOS ("From Mail" keyboard suggestion) key on, and it
+  is one unbroken, `user-select: all` token in the body. In the app, pasted or autofilled text
+  may be a whole sentence: `extractCode` finds the six digits (also "123 456"), the input has no
+  `maxLength` (it would cut the text first), and a "Paste code" button reads the clipboard in one
+  tap where the async clipboard API exists (HTTPS/localhost only).
 - **Throttling.** Codes expire after 15 min. Server allows a new code per address after 10 s (short,
   so sign-out → sign-in works right away); the UI offers "send again" after 60 s. Captcha (Turnstile)
   is the next step if abuse appears.

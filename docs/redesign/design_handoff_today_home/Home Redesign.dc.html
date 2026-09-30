@@ -1,0 +1,1620 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet
+        ><meta name="design_doc_mode" content="canvas" /><link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        /><link
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+          rel="stylesheet"
+        /><style>
+          body {
+            margin: 0;
+            background: #e9e8e1;
+          }
+          a {
+            color: #0f6e62;
+          }
+          a:hover {
+            color: #0a5249;
+          }
+        </style></helmet
+      >
+      <div
+        style="
+          font-family: Manrope, system-ui, sans-serif;
+          color: #1b2421;
+          font-weight: 500;
+          padding: 64px 72px 96px;
+          display: flex;
+          flex-direction: column;
+          gap: 88px;
+          width: max-content;
+          max-width: 2400px;
+        "
+      >
+        <header style="display: flex; flex-direction: column; gap: 12px; max-width: 900px">
+          <p
+            style="
+              margin: 0;
+              font-size: 14px;
+              font-weight: 700;
+              letter-spacing: 0.08em;
+              text-transform: uppercase;
+              color: #0f6e62;
+            "
+          >
+            Motion Within · Home redesign · 29 Sep 2026
+          </p>
+          <h1
+            style="
+              margin: 0;
+              font-size: 56px;
+              line-height: 60px;
+              font-weight: 800;
+              letter-spacing: -0.03em;
+            "
+          >
+            From a calendar with cards to a daily training companion
+          </h1>
+          <p
+            style="
+              margin: 0;
+              font-size: 19px;
+              line-height: 28px;
+              color: #5b6661;
+              max-width: 760px;
+              text-wrap: pretty;
+            "
+          >
+            Built on the existing tokens in <code>globals.css</code>, the Manrope type setup, lucide
+            icons and the real <code>CalendarWorkout</code> data model. Everything shown is
+            derivable from current data unless it is marked as a recommendation.
+          </p>
+        </header>
+
+        <section
+          id="critique"
+          data-screen-label="01 Critique"
+          style="display: flex; gap: 56px; align-items: flex-start"
+        >
+          <div style="display: flex; flex-direction: column; gap: 12px; flex: none">
+            <p
+              style="
+                margin: 0;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: #5b6661;
+              "
+            >
+              Current · /calendar
+            </p>
+            <div
+              style="
+                width: 390px;
+                height: 844px;
+                border-radius: 44px;
+                overflow: hidden;
+                box-shadow:
+                  0 0 0 1px rgba(27, 36, 33, 0.1),
+                  0 24px 60px rgba(27, 36, 33, 0.14);
+                position: relative;
+                background: #f6f6f2;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  overflow-y: auto;
+                  scrollbar-width: none;
+                  padding-bottom: 110px;
+                "
+              >
+                <div
+                  style="
+                    height: 54px;
+                    display: flex;
+                    align-items: center;
+                    padding: 4px 44px 0;
+                    font-size: 16px;
+                    font-weight: 700;
+                  "
+                >
+                  17:20
+                </div>
+                <div style="padding: 16px 16px 0">
+                  <header style="margin-bottom: 12px; display: flex; align-items: center; gap: 4px">
+                    <div style="flex: 1; min-width: 0">
+                      <h1
+                        style="
+                          margin: 0;
+                          font-size: 24px;
+                          line-height: 32px;
+                          font-weight: 800;
+                          letter-spacing: -0.025em;
+                        "
+                      >
+                        This week
+                      </h1>
+                      <p style="margin: 0; font-size: 14px; line-height: 20px; color: #5b6661">
+                        28 Sep – 4 Oct 2026
+                      </p>
+                    </div>
+                    <span
+                      style="
+                        width: 48px;
+                        height: 48px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                      ><svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#1b2421"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m15 18-6-6 6-6"></path></svg
+                    ></span>
+                    <span
+                      style="
+                        width: 48px;
+                        height: 48px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                      "
+                      ><svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#1b2421"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m9 18 6-6-6-6"></path></svg
+                    ></span>
+                  </header>
+                  <ol
+                    style="
+                      list-style: none;
+                      margin: 0;
+                      padding: 0;
+                      display: grid;
+                      grid-template-columns: repeat(7, 1fr);
+                      gap: 4px;
+                    "
+                  >
+                    <sc-for list="{{ oldDays }}" as="d" hint-placeholder-count="7">
+                      <li
+                        style="min-height:76px;border-radius:14px;border:1.5px solid {{ d.border }};background:{{ d.bg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"
+                      >
+                        <span style="font-size:12px;font-weight:600;color:{{ d.wdc }}"
+                          >{{ d.wd }}</span
+                        >
+                        <span
+                          style="font-size:20px;line-height:24px;font-weight:800;color:{{ d.nc }}"
+                          >{{ d.num }}</span
+                        >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="{{ d.ic }}"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-dasharray="{{ d.dash }}"
+                        >
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <path d="{{ d.path }}"></path>
+                        </svg>
+                      </li>
+                    </sc-for>
+                  </ol>
+                  <ul
+                    style="
+                      list-style: none;
+                      margin: 8px 0 0;
+                      padding: 0;
+                      display: flex;
+                      flex-wrap: wrap;
+                      justify-content: center;
+                      gap: 4px 12px;
+                      font-size: 12px;
+                      color: #5b6661;
+                    "
+                  >
+                    <li style="display: flex; align-items: center; gap: 4px">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#0f6e62"
+                        stroke-width="2"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle></svg
+                      >Planned
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 4px">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#e3714d"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="10 8 16 12 10 16 10 8"></polygon></svg
+                      >Started
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 4px">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#2f7d4a"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m9 12 2 2 4-4"></path></svg
+                      >Completed
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 4px">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#66716c"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      >
+                        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                        <line x1="19" x2="19" y1="5" y2="19"></line></svg
+                      >Skipped
+                    </li>
+                  </ul>
+                  <p
+                    style="
+                      margin: 12px 0 16px;
+                      text-align: center;
+                      font-size: 14px;
+                      font-weight: 600;
+                    "
+                  >
+                    1 of 4 workouts completed
+                  </p>
+                  <div
+                    style="
+                      background: #ffffff;
+                      border-radius: 20px;
+                      padding: 20px;
+                      box-shadow:
+                        0 1px 2px rgb(27 36 33 / 0.04),
+                        0 4px 16px rgb(27 36 33 / 0.05);
+                      margin-bottom: 20px;
+                    "
+                  >
+                    <h2
+                      style="
+                        margin: 0;
+                        font-size: 14px;
+                        font-weight: 700;
+                        letter-spacing: 0.025em;
+                        text-transform: uppercase;
+                        color: #5b6661;
+                      "
+                    >
+                      Today · Tuesday 29 September
+                    </h2>
+                    <p
+                      style="
+                        margin: 4px 0 0;
+                        font-size: 24px;
+                        line-height: 32px;
+                        font-weight: 800;
+                        letter-spacing: -0.025em;
+                      "
+                    >
+                      Full body — Strong
+                    </p>
+                    <div style="margin: 8px 0 16px; display: flex; flex-wrap: wrap; gap: 6px">
+                      <span
+                        style="
+                          height: 24px;
+                          padding: 0 10px;
+                          border-radius: 999px;
+                          background: #dcefe9;
+                          color: #0a5249;
+                          font-size: 12px;
+                          font-weight: 600;
+                          display: inline-flex;
+                          align-items: center;
+                          gap: 4px;
+                        "
+                        ><svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <circle cx="12" cy="12" r="10"></circle></svg
+                        >Planned</span
+                      >
+                      <span
+                        style="
+                          height: 24px;
+                          padding: 0 10px;
+                          border-radius: 999px;
+                          background: #dcefe9;
+                          color: #0a5249;
+                          font-size: 12px;
+                          font-weight: 600;
+                          display: inline-flex;
+                          align-items: center;
+                        "
+                        >Strong</span
+                      >
+                      <span
+                        style="
+                          height: 24px;
+                          padding: 0 10px;
+                          border-radius: 999px;
+                          background: #eeeee8;
+                          color: #5b6661;
+                          font-size: 12px;
+                          font-weight: 600;
+                          display: inline-flex;
+                          align-items: center;
+                        "
+                        >8 exercises</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        height: 56px;
+                        border-radius: 14px;
+                        background: #0f6e62;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                      "
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                      >
+                        <polygon points="6 3 20 12 6 21 6 3"></polygon></svg
+                      >Start workout
+                    </div>
+                  </div>
+                  <h2
+                    style="
+                      margin: 0 0 8px;
+                      font-size: 14px;
+                      font-weight: 700;
+                      letter-spacing: 0.025em;
+                      text-transform: uppercase;
+                      color: #5b6661;
+                    "
+                  >
+                    Workouts
+                  </h2>
+                  <ul
+                    style="
+                      list-style: none;
+                      margin: 0;
+                      padding: 0;
+                      display: flex;
+                      flex-direction: column;
+                      gap: 8px;
+                    "
+                  >
+                    <sc-for list="{{ oldList }}" as="w" hint-placeholder-count="4">
+                      <li
+                        style="
+                          background: #ffffff;
+                          border-radius: 20px;
+                          min-height: 64px;
+                          padding: 12px 16px;
+                          display: flex;
+                          align-items: center;
+                          gap: 12px;
+                          box-shadow:
+                            0 1px 2px rgb(27 36 33 / 0.04),
+                            0 4px 16px rgb(27 36 33 / 0.05);
+                        "
+                      >
+                        <div style="width: 48px; text-align: center; flex: none">
+                          <p
+                            style="
+                              margin: 0;
+                              font-size: 12px;
+                              font-weight: 600;
+                              text-transform: uppercase;
+                              color: #5b6661;
+                            "
+                          >
+                            {{ w.wd }}
+                          </p>
+                          <p
+                            style="margin: 0; font-size: 18px; line-height: 18px; font-weight: 800"
+                          >
+                            {{ w.num }}
+                          </p>
+                        </div>
+                        <div style="flex: 1; min-width: 0">
+                          <p style="margin: 0; font-weight: 600; font-size: 16px">{{ w.title }}</p>
+                          <div style="margin-top: 2px; display: flex; gap: 4px">
+                            <span
+                              style="height:24px;padding:0 10px;border-radius:999px;background:{{ w.bbg }};color:{{ w.bc }};font-size:12px;font-weight:600;display:inline-flex;align-items:center"
+                              >{{ w.status }}</span
+                            ><span
+                              style="
+                                height: 24px;
+                                padding: 0 10px;
+                                border-radius: 999px;
+                                background: #eeeee8;
+                                color: #5b6661;
+                                font-size: 12px;
+                                font-weight: 600;
+                                display: inline-flex;
+                                align-items: center;
+                              "
+                              >{{ w.time }}</span
+                            >
+                          </div>
+                        </div>
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#66716c"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </li>
+                    </sc-for>
+                  </ul>
+                </div>
+              </div>
+              <nav
+                style="
+                  position: absolute;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background: rgba(255, 255, 255, 0.88);
+                  backdrop-filter: blur(20px);
+                  box-shadow: 0 -1px 0 rgb(27 36 33 / 0.06);
+                  padding-bottom: 30px;
+                  display: grid;
+                  grid-template-columns: repeat(4, 1fr);
+                "
+              >
+                <span
+                  style="
+                    min-height: 64px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #0a5249;
+                  "
+                  ><span
+                    style="
+                      width: 56px;
+                      height: 32px;
+                      border-radius: 999px;
+                      background: #dcefe9;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                    ><svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                      <path d="M16 2v4"></path>
+                      <path d="M8 2v4"></path>
+                      <path d="M3 10h18"></path></svg></span
+                  >Calendar</span
+                >
+                <span
+                  style="
+                    min-height: 64px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #5b6661;
+                  "
+                  ><span style="height: 32px; display: flex; align-items: center"
+                    ><svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="m3 17 2 2 4-4"></path>
+                      <path d="m3 7 2 2 4-4"></path>
+                      <path d="M13 6h8"></path>
+                      <path d="M13 12h8"></path>
+                      <path d="M13 18h8"></path></svg></span
+                  >Programs</span
+                >
+                <span
+                  style="
+                    min-height: 64px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #5b6661;
+                  "
+                  ><span style="height: 32px; display: flex; align-items: center"
+                    ><svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+                      <path d="m19 9-5 5-4-4-3 3"></path></svg></span
+                  >Progress</span
+                >
+                <span
+                  style="
+                    min-height: 64px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #5b6661;
+                  "
+                  ><span style="height: 32px; display: flex; align-items: center"
+                    ><svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="8" r="5"></circle>
+                      <path d="M20 21a8 8 0 0 0-16 0"></path></svg></span
+                  >Profile</span
+                >
+              </nav>
+            </div>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+              width: 460px;
+              padding-top: 30px;
+            "
+          >
+            <h2
+              style="
+                margin: 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              1 · Critique
+            </h2>
+            <ol
+              style="
+                margin: 0;
+                padding: 0 0 0 22px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                font-size: 16px;
+                line-height: 24px;
+                text-wrap: pretty;
+              "
+            >
+              <li>
+                <strong>The calendar leads.</strong> Header, week strip and legend take the first
+                ~300px. Today’s action starts below the middle of the screen.
+              </li>
+              <li>
+                <strong>Status needs a legend.</strong> Five icon shapes in four colors have to be
+                decoded before the strip makes sense.
+              </li>
+              <li>
+                <strong>Progress is a loose sentence.</strong> “1 of 4 workouts completed” floats
+                between strip and card, tied to neither.
+              </li>
+              <li>
+                <strong>Tuesday appears three times:</strong> in the strip, the Today card and the
+                Workouts list. The list also repeats past days.
+              </li>
+              <li>
+                <strong>Every attribute is a pill.</strong> Status, intensity, exercise count and
+                time share one badge style, so nothing ranks above anything else.
+              </li>
+              <li>
+                <strong>Attention items stack as notices</strong> (unfinished session, long break)
+                above the Today card and compete with it.
+              </li>
+              <li>
+                <strong>Rest day reads as empty:</strong> a sentence and an outline button, with no
+                mention of the next workout.
+              </li>
+              <li>
+                <strong>“Calendar” as the first tab</strong> describes a tool, while the screen is
+                the user’s daily home.
+              </li>
+            </ol>
+            <h2
+              style="
+                margin: 16px 0 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              2 · Information architecture
+            </h2>
+            <ol
+              style="
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+              "
+            >
+              <li
+                style="
+                  display: grid;
+                  grid-template-columns: 28px 1fr;
+                  gap: 10px;
+                  background: #ffffff;
+                  border-radius: 14px;
+                  padding: 12px 14px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <strong style="color: #0f6e62">1</strong
+                ><span
+                  ><strong>Header</strong> — date, greeting, one line of context derived from state.
+                  Absorbs the long-break notice.</span
+                >
+              </li>
+              <li
+                style="
+                  display: grid;
+                  grid-template-columns: 28px 1fr;
+                  gap: 10px;
+                  background: #ffffff;
+                  border-radius: 14px;
+                  padding: 12px 14px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <strong style="color: #0f6e62">2</strong
+                ><span
+                  ><strong>Today card</strong> — one state, one primary action. Attention items
+                  (unfinished session, missed workout) become the card’s state instead of separate
+                  notices.</span
+                >
+              </li>
+              <li
+                style="
+                  display: grid;
+                  grid-template-columns: 28px 1fr;
+                  gap: 10px;
+                  background: #ffffff;
+                  border-radius: 14px;
+                  padding: 12px 14px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <strong style="color: #0f6e62">3</strong
+                ><span
+                  ><strong>This week</strong> — count, segmented bar, compact strip, one insight.
+                  Week navigation sits quietly in its header.</span
+                >
+              </li>
+              <li
+                style="
+                  display: grid;
+                  grid-template-columns: 28px 1fr;
+                  gap: 10px;
+                  background: #ffffff;
+                  border-radius: 14px;
+                  padding: 12px 14px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <strong style="color: #0f6e62">4</strong
+                ><span
+                  ><strong>Up next</strong> — up to three future workouts, grouped in one card, with
+                  a link to the full schedule.</span
+                >
+              </li>
+            </ol>
+            <div
+              style="
+                background: #dcefe9;
+                border-radius: 14px;
+                padding: 14px 16px;
+                font-size: 15px;
+                line-height: 22px;
+                color: #0a5249;
+                text-wrap: pretty;
+              "
+            >
+              <strong>Navigation:</strong> Today · Programs · Progress · Profile. The first tab
+              becomes <strong>Today</strong> (<code>/today</code>, sr: “Danas”). The existing
+              <code>/calendar</code> and <code>/calendar/[date]</code> routes stay as the full
+              schedule, reached from “Full schedule”, day taps and week navigation. No new
+              destinations.
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="redesign"
+          data-screen-label="03 Redesign"
+          style="display: flex; gap: 56px; align-items: flex-start"
+        >
+          <div style="display: flex; flex-direction: column; gap: 12px; flex: none">
+            <p
+              style="
+                margin: 0;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: #0f6e62;
+              "
+            >
+              Redesign · interactive — tap Start, Continue, week arrows, days, rows
+            </p>
+            <div
+              style="
+                width: 390px;
+                height: 844px;
+                border-radius: 44px;
+                overflow: hidden;
+                box-shadow:
+                  0 0 0 1px rgba(27, 36, 33, 0.1),
+                  0 24px 60px rgba(27, 36, 33, 0.14);
+              "
+            >
+              <dc-import
+                name="HomeScreen"
+                state="{{ heroState }}"
+                show-duration="{{ showDuration }}"
+                hint-size="390px,844px"
+              ></dc-import>
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+              width: 460px;
+              padding-top: 30px;
+            "
+          >
+            <h2
+              style="
+                margin: 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              3 · Today-first home
+            </h2>
+            <p
+              style="
+                margin: 0;
+                font-size: 16px;
+                line-height: 24px;
+                color: #5b6661;
+                text-wrap: pretty;
+              "
+            >
+              The eye goes greeting → deep-teal Today card → coral button. It is the only coral
+              surface on the screen, so there is one obvious thing to do. Everything below supports
+              it.
+            </p>
+            <ol
+              style="
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                font-size: 15px;
+                line-height: 22px;
+              "
+            >
+              <li style="display: grid; grid-template-columns: 28px 1fr; gap: 10px">
+                <strong style="color: #0f6e62">A</strong
+                ><span
+                  ><strong>Context line</strong> answers “what should I do today?” in words before
+                  the card does it visually.</span
+                >
+              </li>
+              <li style="display: grid; grid-template-columns: 28px 1fr; gap: 10px">
+                <strong style="color: #0f6e62">B</strong
+                ><span
+                  ><strong>Today card</strong> uses the existing <code>--color-hero</code> surface
+                  from the welcome screen. Time and intensity sit on the eyebrow line; the title is
+                  the largest text on the page; only one fact (exercise count) sits under it.</span
+                >
+              </li>
+              <li style="display: grid; grid-template-columns: 28px 1fr; gap: 10px">
+                <strong style="color: #0f6e62">C</strong
+                ><span
+                  ><strong>Week card</strong> merges the strip, the count and the insight. Segments
+                  show planned workouts only, so “1 of 4” and the bar always agree. No legend: each
+                  status has a distinct shape and the full label is in the accessible name.</span
+                >
+              </li>
+              <li style="display: grid; grid-template-columns: 28px 1fr; gap: 10px">
+                <strong style="color: #0f6e62">D</strong
+                ><span
+                  ><strong>Up next</strong> lists future workouts only; today and past days are
+                  never repeated.</span
+                >
+              </li>
+            </ol>
+            <div
+              style="
+                background: #fbefd4;
+                border-radius: 14px;
+                padding: 14px 16px;
+                font-size: 15px;
+                line-height: 22px;
+                color: #8a5a00;
+                text-wrap: pretty;
+              "
+            >
+              <strong>Recommendation, not in data yet:</strong> estimated duration. Toggle “Show
+              duration” in Tweaks to preview it. It would need an estimate from sets × (work +
+              <code>rest_seconds</code>) per program day; until then it stays hidden.
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="states"
+          data-screen-label="06 States"
+          style="display: flex; flex-direction: column; gap: 24px"
+        >
+          <div style="display: flex; flex-direction: column; gap: 6px; max-width: 900px">
+            <h2
+              style="
+                margin: 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              6 · States
+            </h2>
+            <p style="margin: 0; font-size: 16px; line-height: 24px; color: #5b6661">
+              Each screen is derived from one resolved state (see priority order in 7). Every
+              variant keeps the same four zones, so the page never looks unfinished.
+            </p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(5, 390px); gap: 40px 36px">
+            <sc-for list="{{ states }}" as="st" hint-placeholder-count="9">
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <div style="display: flex; flex-direction: column; gap: 2px">
+                  <p style="margin: 0; font-size: 17px; font-weight: 800">{{ st.title }}</p>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 14px;
+                      line-height: 20px;
+                      color: #5b6661;
+                      min-height: 40px;
+                      text-wrap: pretty;
+                    "
+                  >
+                    {{ st.note }}
+                  </p>
+                </div>
+                <div
+                  style="
+                    width: 390px;
+                    height: 844px;
+                    border-radius: 44px;
+                    overflow: hidden;
+                    box-shadow:
+                      0 0 0 1px rgba(27, 36, 33, 0.1),
+                      0 16px 40px rgba(27, 36, 33, 0.12);
+                  "
+                >
+                  <dc-import
+                    name="HomeScreen"
+                    state="{{ st.id }}"
+                    hint-size="390px,844px"
+                  ></dc-import>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section
+          id="system"
+          data-screen-label="04 System"
+          style="display: flex; flex-direction: column; gap: 24px"
+        >
+          <h2
+            style="
+              margin: 0;
+              font-size: 32px;
+              line-height: 38px;
+              font-weight: 800;
+              letter-spacing: -0.02em;
+            "
+          >
+            4–5 · System
+          </h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(3, 520px);
+              gap: 24px;
+              align-items: start;
+            "
+          >
+            <div
+              style="
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 20px; font-weight: 800">Color</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 21px; color: #5b6661">
+                Existing tokens only. One accent: coral marks the single primary action and live
+                state.
+              </p>
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px">
+                <sc-for list="{{ swatches }}" as="c" hint-placeholder-count="10">
+                  <div style="display: flex; align-items: center; gap: 10px">
+                    <span
+                      style="width:40px;height:40px;border-radius:12px;background:{{ c.hex }};box-shadow:inset 0 0 0 1px rgba(27,36,33,0.1);flex:none"
+                    ></span>
+                    <span style="display: flex; flex-direction: column"
+                      ><span style="font-size: 13px; font-weight: 700">{{ c.name }}</span
+                      ><span style="font-size: 12px; color: #5b6661">{{ c.role }}</span></span
+                    >
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div
+              style="
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 20px; font-weight: 800">
+                Typography · Manrope, tabular numerals
+              </h3>
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                    border-bottom: 1px solid #eeeee8;
+                    padding-bottom: 10px;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 30px;
+                      line-height: 36px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                    "
+                    >Greeting</span
+                  ><span style="font-size: 12px; color: #5b6661">30/36 · 800 · −2%</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                    border-bottom: 1px solid #eeeee8;
+                    padding-bottom: 10px;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: 800;
+                      letter-spacing: -0.02em;
+                    "
+                    >Card title</span
+                  ><span style="font-size: 12px; color: #5b6661">28/34 · 800</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                    border-bottom: 1px solid #eeeee8;
+                    padding-bottom: 10px;
+                  "
+                >
+                  <span style="font-size: 17px; line-height: 24px; font-weight: 800"
+                    >Section title</span
+                  ><span style="font-size: 12px; color: #5b6661">17/24 · 800</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                    border-bottom: 1px solid #eeeee8;
+                    padding-bottom: 10px;
+                  "
+                >
+                  <span style="font-size: 16px; line-height: 22px; font-weight: 700"
+                    >Row title · Button 16/800</span
+                  ><span style="font-size: 12px; color: #5b6661">16/22 · 700</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                    border-bottom: 1px solid #eeeee8;
+                    padding-bottom: 10px;
+                  "
+                >
+                  <span style="font-size: 15px; line-height: 22px">Body and context</span
+                  ><span style="font-size: 12px; color: #5b6661">15/22 · 500</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                    border-bottom: 1px solid #eeeee8;
+                    padding-bottom: 10px;
+                  "
+                >
+                  <span style="font-size: 14px; line-height: 20px; color: #5b6661">Meta line</span
+                  ><span style="font-size: 12px; color: #5b6661">14/20 · 500 · ink-muted</span>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 12px;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 13px;
+                      font-weight: 700;
+                      letter-spacing: 0.06em;
+                      text-transform: uppercase;
+                    "
+                    >Eyebrow</span
+                  ><span style="font-size: 12px; color: #5b6661">13 · 700 · +6% caps</span>
+                </div>
+              </div>
+              <p style="margin: 0; font-size: 14px; line-height: 21px; color: #5b6661">
+                Minimum 12px (day labels, nav). All sizes map to rem so Dynamic Type / browser zoom
+                scales them; no fixed heights on text containers, only min-heights.
+              </p>
+            </div>
+
+            <div
+              style="
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 20px; font-weight: 800">
+                Spacing, surfaces, elevation
+              </h3>
+              <ul
+                style="
+                  margin: 0;
+                  padding: 0 0 0 18px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <li>
+                  4-pt grid. Screen gutter 20. Zone gap 22. Inside cards 14–18. Row padding 14/16.
+                </li>
+                <li>
+                  <strong>Hero</strong> radius 28 (<code>--radius-sheet</code>),
+                  <code>--shadow-raised</code>. One per screen.
+                </li>
+                <li>
+                  <strong>Card</strong> radius 20 (<code>--radius-card</code>),
+                  <code>--shadow-card</code>. No borders on cards.
+                </li>
+                <li>
+                  <strong>Controls</strong> radius 14 (<code>--radius-control</code>). Primary 56
+                  tall, secondary text buttons ≥44.
+                </li>
+                <li>
+                  <strong>Grouping</strong>: rows share one card and divide with a 1px
+                  <code>surface-muted</code> line instead of each being a card.
+                </li>
+                <li>Pills limited to two uses: intensity on the hero and the “Not logged” flag.</li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 20px; font-weight: 800">Status rules</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 21px; color: #5b6661">
+                Shape carries meaning, color reinforces it, the accessible name spells it out
+                (“Tuesday 29 September: Full body — Strong, Planned (today)”).
+              </p>
+              <sc-for list="{{ statuses }}" as="s" hint-placeholder-count="6">
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 28px 110px 1fr;
+                    gap: 10px;
+                    align-items: center;
+                    font-size: 14px;
+                    line-height: 20px;
+                  "
+                >
+                  <span
+                    style="width:18px;height:18px;border-radius:999px;background:{{ s.fill }};border:{{ s.border }};box-sizing:border-box"
+                  ></span>
+                  <strong>{{ s.label }}</strong>
+                  <span style="color: #5b6661">{{ s.rule }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div
+              style="
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 20px; font-weight: 800">Components</h3>
+              <ul
+                style="
+                  margin: 0;
+                  padding: 0 0 0 18px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <li><code>HomeHeader</code> — date, greeting, context.</li>
+                <li>
+                  <code>TodayCard</code> — variants: planned, in_progress, completed, rest, missed,
+                  unplanned, no_program. Reuses <code>WorkoutCta</code> logic.
+                </li>
+                <li>
+                  <code>WeekSummary</code> — header + nav, count, <code>WeekSegments</code>, compact
+                  <code>WeekStrip</code>, optional <code>Insight</code>.
+                </li>
+                <li><code>UpcomingList</code> + <code>UpcomingRow</code>.</li>
+                <li>
+                  Existing: <code>Button</code>, <code>Card</code>, <code>StatusIcon</code>,
+                  <code>LiveDot</code>, <code>Skeleton</code>, <code>OfflineBanner</code>,
+                  <code>BottomNav</code>.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              style="
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+              "
+            >
+              <h3 style="margin: 0; font-size: 20px; font-weight: 800">Icons & motion</h3>
+              <ul
+                style="
+                  margin: 0;
+                  padding: 0 0 0 18px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 8px;
+                  font-size: 15px;
+                  line-height: 22px;
+                "
+              >
+                <li>
+                  lucide, 2px stroke (2.4 when active or on small marks), 16/18/20/24 sizes. Always
+                  paired with text or an aria-label.
+                </li>
+                <li>
+                  Card entry: existing <code>enter</code> stagger (40ms). State change: hero
+                  cross-fades 240ms <code>ease-standard</code>.
+                </li>
+                <li>
+                  Progress segment fills with <code>animate-draw</code> when a workout completes;
+                  live dot uses <code>animate-live</code>.
+                </li>
+                <li>
+                  All motion respects the existing <code>prefers-reduced-motion</code> reset;
+                  nothing depends on animation to be understood.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="interactions"
+          data-screen-label="07 Interactions"
+          style="display: grid; grid-template-columns: 780px 780px; gap: 40px; align-items: start"
+        >
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <h2
+              style="
+                margin: 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              7 · Interaction notes
+            </h2>
+            <div style="background: #ffffff; border-radius: 20px; overflow: hidden">
+              <sc-for list="{{ interactions }}" as="x" hint-placeholder-count="10">
+                <div
+                  style="display:grid;grid-template-columns:220px 1fr;gap:16px;padding:14px 20px;border-top:{{ x.div }};font-size:15px;line-height:22px"
+                >
+                  <strong>{{ x.a }}</strong
+                  ><span style="color: #1b2421; text-wrap: pretty">{{ x.b }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <h3 style="margin: 8px 0 0; font-size: 20px; font-weight: 800">Today-card priority</h3>
+            <ol
+              style="
+                margin: 0;
+                padding: 0 0 0 22px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                font-size: 15px;
+                line-height: 22px;
+              "
+            >
+              <li>Open session anywhere (<code>getOpenSession</code>) → in progress</li>
+              <li>Today has a planned workout (<code>pickTodayWorkout</code>) → planned</li>
+              <li>
+                This week has a past <code>planned</code> workout before today → missed (derived, no
+                schema change)
+              </li>
+              <li>Today’s workout completed → completed</li>
+              <li>Today empty, future workouts exist → rest</li>
+              <li>
+                Active program, week empty, days with <code>preferred_weekday</code> → unplanned
+              </li>
+              <li>No active program → no program</li>
+            </ol>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <h2
+              style="
+                margin: 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              8 · Why this is more useful
+            </h2>
+            <ul
+              style="
+                margin: 0;
+                padding: 0 0 0 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                font-size: 16px;
+                line-height: 24px;
+                text-wrap: pretty;
+              "
+            >
+              <li>
+                The day’s answer and action sit in the first 450px, above the week, instead of below
+                a legend.
+              </li>
+              <li>
+                One coral button per screen. The action changes with state (Start → Continue → View
+                summary) while its position stays fixed.
+              </li>
+              <li>Rest days show the next workout and treat recovery as part of the plan.</li>
+              <li>
+                Missed workouts become a decision (move or skip) instead of a silent grey dot, which
+                keeps the weekly count honest.
+              </li>
+              <li>
+                Week progress uses one number and one bar that always match; no legend to learn.
+              </li>
+              <li>
+                Nothing is invented: every value comes from the current tables, and the one
+                recommended addition (duration) is marked as such.
+              </li>
+            </ul>
+            <h2
+              style="
+                margin: 16px 0 0;
+                font-size: 32px;
+                line-height: 38px;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+              "
+            >
+              9 · Implementation plan
+            </h2>
+            <p style="margin: 0; font-size: 15px; line-height: 22px; color: #5b6661">
+              I can read the codebase but not write to it here, so this is the change list for
+              Claude Code or your team:
+            </p>
+            <ul
+              style="
+                margin: 0;
+                padding: 0 0 0 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                font-size: 15px;
+                line-height: 22px;
+              "
+            >
+              <li>
+                <code>app/(app)/today/page.tsx</code> — new route. Same queries as
+                <code>calendar/page.tsx</code> plus previous week for the insight;
+                <code>/</code> redirects here.
+              </li>
+              <li>
+                <code>features/today/derive.ts</code> — pure
+                <code>deriveTodayState(workouts, today, openSession, activeProgram)</code> with unit
+                tests, following the <code>engine.ts</code> pattern.
+              </li>
+              <li>
+                <code>features/today/*.tsx</code> — the components listed in 4–5;
+                <code>WorkoutCta</code> and <code>StatusIcon</code> reused;
+                <code>rescheduleWorkout</code> / <code>setSkipped</code> power the missed actions.
+              </li>
+              <li>
+                <code>bottom-nav.tsx</code> — first item <code>/today</code>,
+                <code>House</code> icon, active also on <code>/calendar/*</code>.
+              </li>
+              <li>
+                <code>messages/en.json</code> + <code>sr.json</code> — new <code>today.*</code> keys
+                (greeting by time of day, context lines, “Up next”, “Full schedule”, “Not logged”).
+                Serbian runs ~20% longer; all text wraps.
+              </li>
+              <li>
+                Recommended data additions: in-session exercise progress (count of
+                <code>session_exercises.status = completed</code>), and estimated duration.
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </x-dc>
+    <script
+      type="text/x-dc"
+      data-dc-script
+      data-props='{"heroState":{"editor":"enum","options":["planned","in_progress","completed","rest","missed","unplanned","no_program","loading","offline"],"default":"planned","tsType":"string","section":"Interactive screen"},"showDuration":{"editor":"boolean","default":false,"tsType":"boolean","section":"Interactive screen"}}'
+    >
+      class Component extends DCLogic {
+        renderVals() {
+          const wd = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+          const st = ['c', 'p', 'r', 'p', 'r', 'p', 'r'];
+          const icon = {
+            c: { ic: '#2f7d4a', path: 'm9 12 2 2 4-4', dash: '0' },
+            p: { ic: '#0f6e62', path: '', dash: '0' },
+            r: { ic: '#deddd5', path: '', dash: '3 3' },
+          };
+          const oldDays = wd.map((w, i) => ({
+            wd: w, num: 28 + i > 30 ? 28 + i - 30 : 28 + i, ...icon[st[i]],
+            bg: i === 1 ? '#dcefe9' : '#ffffff', border: i === 1 ? '#0f6e62' : 'transparent',
+            wdc: i === 1 ? '#0a5249' : '#5b6661', nc: i === 1 ? '#0a5249' : '#1b2421',
+          }));
+          const done = { bbg: '#e0f1e5', bc: '#2f7d4a', status: 'Completed' };
+          const plan = { bbg: '#dcefe9', bc: '#0a5249', status: 'Planned' };
+          const oldList = [
+            { wd: 'Mon', num: 28, title: 'Full body — Light', time: '18:00', ...done },
+            { wd: 'Tue', num: 29, title: 'Full body — Strong', time: '18:00', ...plan },
+            { wd: 'Thu', num: 1, title: 'Mobility', time: '10:00', ...plan },
+            { wd: 'Sat', num: 3, title: 'Full body — Light', time: '10:00', ...plan },
+          ];
+          const states = [
+            { id: 'planned', title: 'Planned workout', note: 'Default. Coral Start workout is the only primary action.' },
+            { id: 'in_progress', title: 'Workout in progress', note: 'Live dot, started time, exercise progress. Continue workout.' },
+            { id: 'completed', title: 'Completed today', note: 'Summary becomes the action; context line says what is left this week.' },
+            { id: 'rest', title: 'Rest day', note: 'Recovery framed as part of the plan, with the next workout inside the card.' },
+            { id: 'missed', title: 'Missed workout', note: 'A past planned workout this week. Move to today or mark as skipped.' },
+            { id: 'unplanned', title: 'No plan this week', note: 'Program exists, week is empty. One tap runs plan_week().' },
+            { id: 'no_program', title: 'No active program', note: 'First run. Starter program via create_starter_program().' },
+            { id: 'offline', title: 'Offline', note: 'Plan still visible from cache; Start is disabled with the reason stated.' },
+            { id: 'loading', title: 'Loading', note: 'Skeletons match the final zones, so nothing jumps. Errors reuse ErrorView with Try again.' },
+          ];
+          const swatches = [
+            { hex: '#0c5a50', name: 'hero', role: 'Today card surface' },
+            { hex: '#e3714d', name: 'accent', role: 'Primary action, live' },
+            { hex: '#0f6e62', name: 'brand', role: 'Links, planned, secondary CTA' },
+            { hex: '#dcefe9', name: 'brand-soft', role: 'Today tile, rest, nav pill' },
+            { hex: '#2f7d4a', name: 'success', role: 'Completed' },
+            { hex: '#fbefd4', name: 'warning-soft', role: 'Not logged, offline' },
+            { hex: '#f6f6f2', name: 'bg', role: 'Screen' },
+            { hex: '#ffffff', name: 'surface', role: 'Cards' },
+            { hex: '#1b2421', name: 'ink', role: 'Text 15.6:1 on bg' },
+            { hex: '#5b6661', name: 'ink-muted', role: 'Meta 5.6:1 on bg' },
+          ];
+          const statuses = [
+            { label: 'Planned', fill: 'transparent', border: '2.5px solid #0f6e62', rule: 'Open ring, brand. Future or today.' },
+            { label: 'Started', fill: '#e3714d', border: '0', rule: 'Filled coral with play mark. Only one at a time.' },
+            { label: 'Completed', fill: '#2f7d4a', border: '0', rule: 'Filled success with check. Fills a bar segment.' },
+            { label: 'Not logged', fill: '#fbefd4', border: '2px solid #8a5a00', rule: 'Warning with “!”. Past + still planned. Derived.' },
+            { label: 'Skipped', fill: '#eeeee8', border: '0', rule: 'Skip glyph, ink-subtle. Excluded from the count.' },
+            { label: 'No workout', fill: '#c9c8bf', border: '0', rule: '4px dot. Intentionally quiet.' },
+          ];
+          const ix = [
+            ['Start workout', 'Opens /workouts/[id]/start (existing). Disabled offline with the reason in the banner.'],
+            ['Continue workout', 'Opens /sessions/[id]. Shown for any open session, even if it was planned for another day.'],
+            ['View summary', 'Opens the completed session.'],
+            ['View workout', 'Opens /calendar/[date] with the day detail (move, skip, remove stay there).'],
+            ['Move to today', 'rescheduleWorkout(id, today). Card switches to planned with a toast “Moved to today”.'],
+            ['Mark as skipped', 'setSkipped(id, true). Removed from the count; card falls through to the next state.'],
+            ['Plan this week', 'plan_week() via PlanWeekButton; toast reuses calendar.planWeekDone.'],
+            ['Week arrows', 'Swap only the week card (strip, count). Today card stays. “Today” pill returns.'],
+            ['Day tile', 'Opens /calendar/[date]. 44×68 target, full accessible name.'],
+            ['Up next row / Full schedule', 'Row opens its day; Full schedule opens /calendar.'],
+          ];
+          return {
+            heroState: this.props.heroState ?? 'planned',
+            showDuration: !!this.props.showDuration,
+            oldDays, oldList, states, swatches, statuses,
+            interactions: ix.map(([a, b], i) => ({ a, b, div: i ? '1px solid #eeeee8' : '0' })),
+          };
+        }
+      }
+    </script>
+  </body>
+</html>

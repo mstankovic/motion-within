@@ -127,7 +127,7 @@ export function WorkoutRunner({ initial, lastPerformances, bests, dateLabel, mod
     router.refresh();
   }
 
-  const exitHref = mode === "edit" ? `/sessions/${sessionId}` : "/calendar";
+  const exitHref = mode === "edit" ? `/sessions/${sessionId}` : "/today";
 
   return (
     <div className="mx-auto min-h-dvh w-full max-w-xl pb-32">

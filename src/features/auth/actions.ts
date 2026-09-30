@@ -33,7 +33,7 @@ function mapAuthError(code: string | undefined, status?: number): AuthErrorCode 
 
 function safeNext(next: FormDataEntryValue | null) {
   const value = typeof next === "string" ? next : "";
-  return value.startsWith("/") && !value.startsWith("//") ? value : "/calendar";
+  return value.startsWith("/") && !value.startsWith("//") ? value : "/today";
 }
 
 /** Emails a one-time sign-in code. Creates the account on first use (no separate sign-up). */

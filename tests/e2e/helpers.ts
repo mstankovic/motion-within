@@ -46,7 +46,8 @@ export async function registerAndOnboard(page: Page, opts: { starter?: boolean }
   await page.getByRole("button", { name: "Dalje" }).click();
   await page.getByText("Pročitao/la sam obaveštenje").click();
   await page.getByRole("button", { name: "Završi" }).click();
-  await page.waitForURL("**/calendar");
-  await expect(page.getByRole("heading", { name: "Ova nedelja" })).toBeVisible();
+  await page.waitForURL("**/today");
+  // The greeting is present in every Today state (the week card is hidden without a program).
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   return email;
 }

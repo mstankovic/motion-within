@@ -5,3 +5,5 @@ supabase/.temp
 src/types/database.ts
 playwright-report
 test-results
+# Design handoffs and references: keep them exactly as delivered.
+docs/redesign

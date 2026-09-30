@@ -1,6 +1,13 @@
 {{ $en := eq (printf "%v" .Data.locale) "en" }}<!doctype html>
 <html lang="{{ if $en }}en{{ else }}sr{{ end }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ if $en }}Your Motion Within code: {{ .Token }}{{ else }}Tvoj Motion Within kod: {{ .Token }}{{ end }}</title>
+  </head>
   <body style="margin:0;padding:24px 12px;background:#f6f6f2;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1b2421">
+    <!-- Inbox preview line: the code first, so it is visible before the email is opened. -->
+    <div style="display:none;max-height:0;overflow:hidden">{{ .Token }} {{ if $en }}is your sign-in code.{{ else }}je tvoj kod za prijavu.{{ end }}</div>
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
       <tr>
         <td align="center">
@@ -8,11 +15,18 @@
             <tr>
               <td>
                 <p style="margin:0 0 20px;font-size:18px;font-weight:800;color:#0f6e62">Motion Within</p>
-                <p style="margin:0 0 8px;font-size:16px">
+                <p style="margin:0 0 10px;font-size:16px">
                   {{ if $en }}Your sign-in code:{{ else }}Tvoj kod za prijavu:{{ end }}
                 </p>
-                <p style="margin:0 0 20px;font-size:34px;font-weight:800;letter-spacing:8px;font-family:ui-monospace,Menlo,Consolas,monospace">{{ .Token }}</p>
-                <p style="margin:0;font-size:14px;color:#5b6662">
+                <!-- One unbroken token (no spaces between digits) so a long-press copies all of it;
+                     user-select:all selects the whole code with one tap where supported. -->
+                <p style="margin:0 0 12px">
+                  <span style="display:inline-block;padding:12px 18px;border-radius:12px;background:#dcefe9;color:#0a5249;font-size:34px;line-height:40px;font-weight:800;letter-spacing:6px;font-family:ui-monospace,Menlo,Consolas,monospace;-webkit-user-select:all;user-select:all">{{ .Token }}</span>
+                </p>
+                <p style="margin:0 0 20px;font-size:14px;color:#5b6662">
+                  {{ if $en }}Copy the code and paste it in the app, or pick it from the keyboard suggestions.{{ else }}Kopiraj kod i nalepi ga u aplikaciju, ili ga izaberi iz predloga iznad tastature.{{ end }}
+                </p>
+                <p style="margin:0;font-size:13px;color:#5b6662">
                   {{ if $en }}The code is valid for 15 minutes. If you didn't request it, you can ignore this email.{{ else }}Kod važi 15 minuta. Ako ga nisi ti tražio/la, slobodno ignoriši ovaj email.{{ end }}
                 </p>
               </td>

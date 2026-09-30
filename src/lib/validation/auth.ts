@@ -14,3 +14,12 @@ export const verifyOtpSchema = z.object({
   email: emailSchema,
   token: otpSchema,
 });
+
+/**
+ * The sign-in code inside pasted text: "926648", "926 648", "926-648" or a sentence such as
+ * "Your code: 926648". Longer digit runs (phone numbers, years with more digits) are ignored.
+ */
+export function extractCode(text: string): string | null {
+  const match = text.match(/(?<!\d)(\d{3})[\s-]?(\d{3})(?!\d)/);
+  return match ? match[1] + match[2] : null;
+}

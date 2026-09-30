@@ -35,7 +35,7 @@ test("passkey: turn on after sign-in → listed in profile → quick sign-in aft
   await page.getByRole("button", { name: "Odjavi se" }).click();
   await page.waitForURL("**/login");
   await page.getByRole("button", { name: /Brza prijava/ }).click();
-  await page.waitForURL("**/calendar");
+  await page.waitForURL("**/today");
   // The offer is not shown again on this device.
   await expect(page.getByText("Prijavljuj se jednim dodirom")).toBeHidden();
 
@@ -48,7 +48,7 @@ test("passkey: turn on after sign-in → listed in profile → quick sign-in aft
   await page.reload();
   await expect(page.getByRole("button", { name: /Brza prijava/ })).toBeHidden();
   await simulateTouch(true); // the virtual authenticator "picks" the suggestion
-  await page.waitForURL("**/calendar");
+  await page.waitForURL("**/today");
 });
 
 test("passkey offer can be dismissed", async ({ page, context }) => {

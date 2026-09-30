@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CalendarDays, ChartLine, ListChecks, UserRound } from "lucide-react";
+import { ChartLine, House, ListChecks, UserRound } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const items = [
-  { href: "/calendar", key: "calendar", icon: CalendarDays },
+  { href: "/today", key: "today", icon: House },
   { href: "/programs", key: "programs", icon: ListChecks },
   { href: "/progress", key: "progress", icon: ChartLine },
   { href: "/profile", key: "profile", icon: UserRound },
@@ -19,14 +19,16 @@ export function BottomNav() {
   return (
     <nav
       aria-label={t("main")}
-      className="bg-surface/88 fixed inset-x-0 bottom-0 z-30 pb-[env(safe-area-inset-bottom)] shadow-(--shadow-nav) backdrop-blur-xl backdrop-saturate-150"
+      className="bg-surface/90 fixed inset-x-0 bottom-0 z-30 pb-[env(safe-area-inset-bottom)] shadow-(--shadow-nav) backdrop-blur-[20px] backdrop-saturate-150"
     >
       <ul className="mx-auto grid max-w-[430px] grid-cols-4">
         {items.map(({ href, key, icon: Icon }) => {
           const active =
             pathname === href ||
             pathname.startsWith(`${href}/`) ||
-            (key === "programs" && pathname.startsWith("/exercises"));
+            (key === "programs" && pathname.startsWith("/exercises")) ||
+            // The full schedule is reached from Today.
+            (key === "today" && pathname.startsWith("/calendar"));
           return (
             <li key={href}>
               <Link
@@ -34,7 +36,7 @@ export function BottomNav() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "group ease-standard flex min-h-16 flex-col items-center justify-center gap-1 text-xs font-semibold transition-colors duration-(--dur-base)",
-                  active ? "text-brand-strong" : "text-ink-muted",
+                  active ? "text-brand-strong font-bold" : "text-ink-muted",
                 )}
               >
                 <span className="relative flex h-8 w-14 items-center justify-center">

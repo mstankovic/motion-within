@@ -39,7 +39,7 @@ export default async function CalendarDayPage({ params }: PageProps<"/calendar/[
       <PageHeader
         title={label}
         backHref={`/calendar?week=${startOfWeek(date)}`}
-        backLabel={t("title")}
+        backLabel={t("schedule")}
       />
       <div className="space-y-4">
         {workouts.length === 0 ? <EmptyState title={t("day.empty")} /> : null}

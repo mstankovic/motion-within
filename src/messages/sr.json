@@ -33,16 +33,17 @@
     "notFoundTitle": "Nije pronađeno",
     "notFoundBody": "Ova stranica ne postoji ili nemaš pristup.",
     "goToCalendar": "Idi na kalendar",
-    "offlineBadge": "Van mreže",
     "kg": "kg",
     "cm": "cm",
     "seconds": "s",
     "min": "min",
     "reps": "pon.",
     "sets": "serije",
-    "rounds": "krugovi"
+    "rounds": "krugovi",
+    "offlineBanner": "Van mreže. Plan je sačuvan na telefonu; za početak treninga potrebna je veza."
   },
   "nav": {
+    "today": "Danas",
     "calendar": "Kalendar",
     "programs": "Programi",
     "progress": "Napredak",
@@ -54,7 +55,10 @@
     "codeTitle": "Unesi kod",
     "codeSubtitle": "Poslali smo ga na <b>{email}</b>",
     "code": "Kod iz emaila",
+    "pasteCode": "Nalepi kod",
+    "pasteNoCode": "U kopiranom tekstu nema šestocifrenog koda.",
     "signIn": "Prijavi se",
+    "checking": "Proveravam…",
     "signOut": "Odjavi se",
     "resend": "Pošalji novi kod",
     "resendIn": "Novi kod za {seconds} s",
@@ -69,6 +73,7 @@
     },
     "emailPlaceholder": "ime@email.com",
     "continue": "Nastavi",
+    "sending": "Šaljem kod…",
     "formTitle": "Prijavi se ili napravi nalog"
   },
   "welcome": {
@@ -160,7 +165,8 @@
     "in_progress": "Započeto",
     "completed": "Završeno",
     "skipped": "Preskočeno",
-    "rest": "Nema treninga"
+    "rest": "Nema treninga",
+    "not_logged": "Nije zabeleženo"
   },
   "intensity": {
     "light": "Lakši",
@@ -170,26 +176,20 @@
   },
   "calendar": {
     "title": "Ova nedelja",
+    "schedule": "Raspored",
     "weekOf": "Nedelja od {date}",
     "previousWeek": "Prethodna nedelja",
     "nextWeek": "Sledeća nedelja",
     "thisWeek": "Danas",
     "today": "Danas",
-    "weekProgress": "{done} od {planned} treninga završeno",
-    "weekProgressNone": "Ove nedelje nema planiranih treninga",
     "todayCard": "Danas",
-    "noWorkoutToday": "Danas nema planiranog treninga",
-    "noWorkoutTodayBody": "Odmor je deo treninga. Možeš i da dodaš trening za danas.",
     "exerciseCount": "{count, plural, one {# vežba} few {# vežbe} other {# vežbi}}",
     "start": "Započni trening",
     "continue": "Nastavi trening",
     "viewSummary": "Pogledaj rezime",
-    "addWorkout": "Dodaj trening",
     "planWeek": "Isplaniraj nedelju iz programa",
     "planWeekDone": "{count, plural, =0 {Sve je već isplanirano.} one {Isplaniran # trening.} few {Isplanirana # treninga.} other {Isplanirano # treninga.}}",
     "noActiveProgram": "Još nemaš aktivan program.",
-    "createProgram": "Podesi program",
-    "longBreak": "Prošlo je više od 14 dana od poslednjeg treninga. Razmisli o lakšem povratnom treningu — slušaj svoje telo.",
     "day": {
       "title": "Treninzi",
       "empty": "Za ovaj dan nema ničeg planiranog.",
@@ -207,6 +207,61 @@
       "skipped": "Označeno kao preskočeno.",
       "added": "Trening je dodat.",
       "removed": "Trening je uklonjen."
+    }
+  },
+  "today": {
+    "title": "Danas",
+    "greeting": "{part, select, morning {Dobro jutro} afternoon {Dobar dan} other {Dobro veče}}",
+    "context": {
+      "planned": "Danas te čeka {count, plural, one {jedan trening} few {# treninga} other {# treninga}}{time, select, none {.} other {, u {time}.}}",
+      "in_progress": "Imaš započet trening. Nastavi gde si stao/la.",
+      "completed": "Današnji trening je gotov. {left, plural, =0 {To je sve za ovu nedelju.} one {Ove nedelje ostao je još jedan trening.} few {Ove nedelje ostala su još # treninga.} other {Ove nedelje ostalo je još # treninga.}}",
+      "rest": "Danas nema treninga. {when, select, tomorrow {Sledeći je sutra.} weekday {Sledeći je {wd, select, 1 {u ponedeljak} 2 {u utorak} 3 {u sredu} 4 {u četvrtak} 5 {u petak} 6 {u subotu} other {u nedelju}}.} date {Sledeći je {date}.} other {Uživaj u odmoru.}}",
+      "missed": "Trening {wd, select, 1 {od ponedeljka} 2 {od utorka} 3 {od srede} 4 {od četvrtka} 5 {od petka} 6 {od subote} other {od nedelje}} nije zabeležen. Još imaš vremena ove nedelje.",
+      "unplanned": "Za ovu nedelju još ništa nije planirano.",
+      "no_program": "Podesi program i počni da planiraš nedelju.",
+      "longBreak": "Prošlo je više od dve nedelje. Vrati se polako i slušaj telo."
+    },
+    "card": {
+      "today": "Danas",
+      "todayAt": "Danas · {time}",
+      "inProgressSince": "U toku · od {time}",
+      "completedAt": "Završeno · {time}",
+      "recovery": "Danas · Oporavak",
+      "exercisesDone": "{done} od {total} vežbi urađeno",
+      "viewWorkout": "Pogledaj trening",
+      "restTitle": "Dan za odmor",
+      "restBody": "Oporavak je deo programa. Telo napreduje između treninga.",
+      "nextWorkout": "Sledeći trening",
+      "tomorrow": "Sutra",
+      "addWorkoutToday": "Dodaj trening za danas",
+      "notLogged": "Nije zabeleženo · {day}",
+      "missedBody": "Danas ti je plan slobodan. Prebaci trening ovde ili ga označi kao preskočen, da nedelja ostane tačna.",
+      "moveToToday": "Prebaci na danas",
+      "planTitle": "Isplaniraj nedelju",
+      "planBody": "Tvoj program ima treninge: {days}. Dodaj ih u ovu nedelju jednim dodirom.",
+      "planButton": "Isplaniraj ovu nedelju",
+      "addSingle": "Dodaj jedan trening",
+      "starterEyebrow": "Početak",
+      "starterTitle": "Podesi svoj prvi program",
+      "starterBody": "Početni program ima tri dana: lakši i jači trening celog tela i mobilnost. Sve možeš promeniti kasnije.",
+      "useStarter": "Koristi početni program",
+      "buildOwn": "Napravi svoj",
+      "inProgress": "U toku",
+      "markSkipped": "Označi kao preskočen",
+      "planBodyNoDays": "Dodaj treninge iz svog programa u ovu nedelju."
+    },
+    "week": {
+      "insightAllDone": "Prošle nedelje završio/la si sve planirane treninge ({count}).",
+      "insightPartial": "Prošle nedelje: {done} od {total} planiranih treninga završeno.",
+      "todayMark": "danas",
+      "doneOf": "od {total} treninga urađeno"
+    },
+    "upNext": "Sledeće",
+    "fullSchedule": "Ceo raspored",
+    "toast": {
+      "moved": "Prebačeno na danas",
+      "skipped": "Označeno kao preskočeno"
     }
   },
   "programs": {
